@@ -1,21 +1,61 @@
 // 主题色板
 export const COLOR = {
-    primary: 0x4A90D9,     // 主题色
-    primaryDark: 0x3A80C9, // 主题色 深
-    success: 0x4CAF50,     // 成功
-    warning: 0xFFC107,     // 警告
-    danger: 0xF44336,      // 危险
-    bg: 0x1A1A2E,          // 页面背景
-    surface: 0x16213E,     // 表面/输入框背景
-    surfaceLight: 0x0F3460,// 浅色表面（下拉面板等）
-    card: 0x222244,        // 卡片背景
-    text: 0xE0E0E0,        // 主文本
-    textSec: 0x9E9E9E,     // 次要文本
-    textDark: 0x1A1A2E,    // 深色文本（浅色按钮上使用）
-    border: 0x3A3A5C,      // 边框
-    white: 0xFFFFFF,       // 白色
-    tabActive: 0x4A90D9,   // TabBar 选中态
-    tabInactive: 0x2A2A4E, // TabBar 未选中态
+    // 主题
+    primary: 0x4A90D9,
+    primaryDark: 0x3A80C9,
+    primaryLight: 0x6AAEE8,
+
+    // 语义色
+    success: 0x4CAF50,
+    successDark: 0x388E3C,
+    successLight: 0x81C784,
+    warning: 0xFFC107,
+    warningDark: 0xF9A825,
+    warningLight: 0xFFD54F,
+    danger: 0xF44336,
+    dangerDark: 0xC62828,
+    dangerLight: 0xEF9A9A,
+    info: 0x29B6F6,
+    infoDark: 0x0277BD,
+    infoLight: 0x81D4FA,
+
+    // 背景/表面
+    bg: 0x1A1A2E,
+    surface: 0x16213E,
+    surfaceLight: 0x0F3460,
+    card: 0x222244,
+    overlay: 0x000000,
+
+    // 文本
+    text: 0xE0E0E0,
+    textSec: 0x9E9E9E,
+    textHint: 0x616161,
+    textDark: 0x1A1A2E,
+    textDisabled: 0x4A4A6A,
+
+    // 边框/分割线
+    border: 0x3A3A5C,
+    divider: 0x2A2A4A,
+
+    // 常用
+    white: 0xFFFFFF,
+    black: 0x000000,
+    transparent: 0x000000,
+
+    // 灰度
+    gray100: 0xf8f9fa,
+    gray200: 0xe9ecef,
+    gray300: 0xdee2e6,
+    gray400: 0xced4da,
+    gray500: 0xadb5bd,
+    gray600: 0x6c757d,
+    gray700: 0x495057,
+    gray800: 0x343a40,
+    gray900: 0x212529,
+
+    // TabBar
+    tabActive: 0x4A90D9,
+    tabInactive: 0x2A2A4E,
 };
 
 // 布局与字号
