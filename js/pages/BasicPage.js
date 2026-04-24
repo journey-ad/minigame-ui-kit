@@ -1,5 +1,5 @@
 import * as PIXI from '../../libs/pixi.min';
-import { Button, Icon, ICON_NAMES, Collapse, Page, COLOR, SIZE, FONT } from '../ui/index';
+import { Button, Icon, ICON_NAMES, Collapse, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
 
 export default class BasicPage extends Page {
     constructor(w, h) {
@@ -26,7 +26,7 @@ export default class BasicPage extends Page {
 
         const btnPrimary = new Button({
             text: '主要按钮', width: SIZE.btnW, height: SIZE.btnH, color: COLOR.primary,
-            onTap: () => console.log('[Button] 主要按钮'),
+            onTap: () => logger.info('[Button] 主要按钮'),
         });
         btnPrimary.x = SIZE.pad;
         btnPrimary.y = y;
@@ -34,10 +34,7 @@ export default class BasicPage extends Page {
 
         const btnSuccess = new Button({
             text: '成功按钮', width: SIZE.btnW, height: SIZE.btnH, color: COLOR.success,
-            onTap: () => {
-                debugger
-                console.log('[Button] 成功按钮')
-            },
+            onTap: () => logger.info('[Button] 成功按钮'),
         });
         btnSuccess.x = SIZE.pad + SIZE.btnW + 40;
         btnSuccess.y = y;
@@ -46,7 +43,7 @@ export default class BasicPage extends Page {
 
         const btnWarn = new Button({
             text: '警告按钮', width: SIZE.btnW, height: SIZE.btnH, color: COLOR.warning, textColor: COLOR.textDark,
-            onTap: () => console.log('[Button] 警告按钮'),
+            onTap: () => logger.info('[Button] 警告按钮'),
         });
         btnWarn.x = SIZE.pad;
         btnWarn.y = y;
@@ -54,7 +51,7 @@ export default class BasicPage extends Page {
 
         const btnDanger = new Button({
             text: '危险按钮', width: SIZE.btnW, height: SIZE.btnH, color: COLOR.danger,
-            onTap: () => console.log('[Button] 危险按钮'),
+            onTap: () => logger.info('[Button] 危险按钮'),
         });
         btnDanger.x = SIZE.pad + SIZE.btnW + 40;
         btnDanger.y = y;

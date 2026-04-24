@@ -1,5 +1,5 @@
 import * as PIXI from '../../libs/pixi.min';
-import { Button, Dialog, Toast, Loading, ActionSheet, Overlay, Page, COLOR, SIZE, FONT } from '../ui/index';
+import { Button, Dialog, Toast, Loading, ActionSheet, Overlay, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
 
 export default class FeedbackPage extends Page {
     constructor(w, h) {
@@ -31,7 +31,7 @@ export default class FeedbackPage extends Page {
                     message: '这是一个 Alert 弹窗\n点击确认关闭',
                     animation: 'fade',
                 }).then(() => {
-                    console.log('[Dialog] alert closed');
+                    logger.info('[Dialog] alert closed');
                 });
             },
         });
@@ -47,10 +47,10 @@ export default class FeedbackPage extends Page {
                     message: '是否确认执行此操作？',
                     animation: 'pop',
                 }).then(() => {
-                    console.log('[Dialog] confirmed');
+                    logger.info('[Dialog] confirmed');
                     Toast.show({ text: '已确认', type: 'success' });
                 }).catch(() => {
-                    console.log('[Dialog] cancelled');
+                    logger.info('[Dialog] cancelled');
                     Toast.show({ text: '已取消', type: 'error' });
                 });
             },
@@ -133,7 +133,7 @@ export default class FeedbackPage extends Page {
                 }).then((action) => {
                     Toast.show({ text: `选择了: ${action.name}`, type: 'success' });
                 }).catch(() => {
-                    console.log('[ActionSheet] cancelled');
+                    logger.info('[ActionSheet] cancelled');
                 });
             },
         });

@@ -1,6 +1,7 @@
 import * as PIXI from '../common/pixi';
 import { nextTick } from '../common/utils';
 import { SIZE } from '../common/styles';
+import logger from '../common/logger';
 
 export class Page extends PIXI.Container {
     constructor(w, h) {
@@ -63,7 +64,7 @@ export class Page extends PIXI.Container {
         };
 
         this.on('touchstart', (e) => {
-            console.log(`[Page] touchstart, y=${e.data.global.y}, time=${Date.now()}`);
+            logger.debug(`[Page] touchstart, y=${e.data.global.y}, time=${Date.now()}`);
             this._canScroll = this._contentHeight > this._h;
             this._lastY = e.data.global.y;
             this._lastTime = Date.now();

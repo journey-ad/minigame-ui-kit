@@ -1,5 +1,5 @@
 import * as PIXI from '../../libs/pixi.min';
-import { Button, ScrollBox, Swiper, ListItem, ProgressBar, drawRoundedRect, Page, COLOR, SIZE, FONT } from '../ui/index';
+import { Button, ScrollBox, Swiper, ListItem, ProgressBar, drawRoundedRect, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
 
 export default class DisplayPage extends Page {
     constructor(w, h) {
@@ -11,7 +11,11 @@ export default class DisplayPage extends Page {
         const w = this._w;
         let y = 20;
 
-        const title = new PIXI.Text('展示组件', { fontSize: SIZE.textSizeXxl, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
+        const title = new PIXI.Text('展示组件', {
+            fontSize: SIZE.textSizeXxl,
+            fill: COLOR.white,
+            fontWeight: 'bold', fontFamily: FONT
+        });
         title.x = SIZE.pad;
         title.y = y;
         this.addChild(title);
@@ -20,17 +24,29 @@ export default class DisplayPage extends Page {
         const listW = w - SIZE.pad * 2;
 
         // === ProgressBar ===
-        let secLabel = new PIXI.Text('进度条 ProgressBar', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        let secLabel = new PIXI.Text('进度条 ProgressBar', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.textSec,
+            fontFamily: FONT
+        });
         secLabel.x = SIZE.pad;
         secLabel.y = y;
         this.addChild(secLabel);
         y += 50;
 
-        const dlLabel = new PIXI.Text('下载进度', { fontSize: SIZE.textSizeSm, fill: COLOR.text, fontFamily: FONT });
+        const dlLabel = new PIXI.Text('下载进度', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.text,
+            fontFamily: FONT
+        });
         dlLabel.x = SIZE.pad;
         dlLabel.y = y;
         this.addChild(dlLabel);
-        const dlVal = new PIXI.Text('0%', { fontSize: SIZE.textSizeSm, fill: COLOR.success, fontFamily: FONT });
+        const dlVal = new PIXI.Text('0%', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.success,
+            fontFamily: FONT
+        });
         dlVal.x = SIZE.pad + SIZE.sliderW + 60;
         dlVal.y = y;
         this.addChild(dlVal);
@@ -42,11 +58,19 @@ export default class DisplayPage extends Page {
         this.addChild(dlBar);
         y += SIZE.sliderH + 30;
 
-        const expLabel = new PIXI.Text('经验值', { fontSize: SIZE.textSizeSm, fill: COLOR.text, fontFamily: FONT });
+        const expLabel = new PIXI.Text('经验值', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.text,
+            fontFamily: FONT
+        });
         expLabel.x = SIZE.pad;
         expLabel.y = y;
         this.addChild(expLabel);
-        const expVal = new PIXI.Text('65%', { fontSize: SIZE.textSizeSm, fill: COLOR.primary, fontFamily: FONT });
+        const expVal = new PIXI.Text('65%', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.primary,
+            fontFamily: FONT
+        });
         expVal.x = SIZE.pad + SIZE.sliderW + 60;
         expVal.y = y;
         this.addChild(expVal);
@@ -60,7 +84,11 @@ export default class DisplayPage extends Page {
         y += SIZE.sliderH + 30;
 
         // 模拟下载
-        const status = new PIXI.Text('点击按钮开始模拟下载', { fontSize: SIZE.textSizeSm, fill: COLOR.text, fontFamily: FONT });
+        const status = new PIXI.Text('点击按钮开始模拟下载', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.text,
+            fontFamily: FONT
+        });
         status.x = SIZE.pad;
         status.y = y;
         this.addChild(status);
@@ -94,7 +122,11 @@ export default class DisplayPage extends Page {
         y += SIZE.btnH + 60;
 
         // === 垂直列表 ===
-        secLabel = new PIXI.Text('垂直列表 List', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        secLabel = new PIXI.Text('垂直列表 List', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.textSec,
+            fontFamily: FONT
+        });
         secLabel.x = SIZE.pad;
         secLabel.y = y;
         this.addChild(secLabel);
@@ -116,7 +148,11 @@ export default class DisplayPage extends Page {
         y += 400;
 
         // === 水平标签 ===
-        secLabel = new PIXI.Text('水平标签列表', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        secLabel = new PIXI.Text('水平标签列表', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.textSec,
+            fontFamily: FONT
+        });
         secLabel.x = SIZE.pad;
         secLabel.y = y;
         this.addChild(secLabel);
@@ -128,7 +164,7 @@ export default class DisplayPage extends Page {
             const btn = new Button({
                 text: name, width: 140, height: 64,
                 color: j === 0 ? COLOR.primary : COLOR.surface,
-                onTap: () => console.log(`[Tag] ${name}`),
+                onTap: () => logger.info(`[Tag] ${name}`),
             });
             btn.x = tx;
             btn.y = y;
@@ -138,7 +174,11 @@ export default class DisplayPage extends Page {
         y += 90;
 
         // === ScrollBox 垂直 ===
-        secLabel = new PIXI.Text('垂直滚动 ScrollBox', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        secLabel = new PIXI.Text('垂直滚动 ScrollBox', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.textSec,
+            fontFamily: FONT
+        });
         secLabel.x = SIZE.pad;
         secLabel.y = y;
         this.addChild(secLabel);
@@ -153,7 +193,11 @@ export default class DisplayPage extends Page {
             const sBg = new PIXI.Graphics();
             drawRoundedRect(sBg, 0, 0, itemW, itemH, 12, COLOR.surfaceLight, COLOR.border);
             item.addChild(sBg);
-            const sLabel = new PIXI.Text(`滚动列表项 #${k + 1}`, { fontSize: SIZE.textSize, fill: COLOR.text, fontFamily: FONT });
+            const sLabel = new PIXI.Text(`滚动列表项 #${k + 1}`, {
+                fontSize: SIZE.textSize,
+                fill: COLOR.text,
+                fontFamily: FONT
+            });
             sLabel.x = 20;
             sLabel.y = (itemH - sLabel.height) / 2;
             item.addChild(sLabel);
@@ -166,7 +210,11 @@ export default class DisplayPage extends Page {
         y += 500;
 
         // === 水平卡片滚动 ===
-        secLabel = new PIXI.Text('水平卡片滚动', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        secLabel = new PIXI.Text('水平卡片滚动', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.textSec,
+            fontFamily: FONT
+        });
         secLabel.x = SIZE.pad;
         secLabel.y = y;
         this.addChild(secLabel);
@@ -185,7 +233,11 @@ export default class DisplayPage extends Page {
             bg.drawRoundedRect(0, 0, cardW, cardH, 12);
             bg.endFill();
             card.addChild(bg);
-            const ct = new PIXI.Text(`卡片 ${i + 1}`, { fontSize: SIZE.textSize, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
+            const ct = new PIXI.Text(`卡片 ${i + 1}`, {
+                fontSize: SIZE.textSize,
+                fill: COLOR.white,
+                fontWeight: 'bold', fontFamily: FONT
+            });
             ct.x = (cardW - ct.width) / 2;
             ct.y = (cardH - ct.height) / 2;
             card.addChild(ct);
@@ -198,7 +250,11 @@ export default class DisplayPage extends Page {
         y += 220;
 
         // === Swiper ===
-        secLabel = new PIXI.Text('轮播 Swiper', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        secLabel = new PIXI.Text('轮播 Swiper', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.textSec,
+            fontFamily: FONT
+        });
         secLabel.x = SIZE.pad;
         secLabel.y = y;
         this.addChild(secLabel);

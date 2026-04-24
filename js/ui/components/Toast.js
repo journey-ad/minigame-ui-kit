@@ -1,6 +1,7 @@
 import * as PIXI from '../common/pixi';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import stage, { LAYER } from '../common/stage';
+import logger from '../common/logger';
 
 let _current = null;
 
@@ -47,6 +48,7 @@ const ICON_DRAWERS = {
 
 export const Toast = {
     show({ text = '', type = 'success', duration = 2000 } = {}) {
+        logger.debug(`[Toast] ${type}: ${text}`);
         if (_current && _current.parent) {
             stage.removeFrom(LAYER.LAYER_2, _current);
             _current.destroy({ children: true });

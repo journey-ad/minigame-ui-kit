@@ -1,6 +1,7 @@
 import * as PIXI from '../common/pixi';
 import { drawRoundedRect } from '../common/utils';
 import { COLOR } from '../common/styles';
+import logger from '../common/logger';
 
 export class ScrollBox extends PIXI.Container {
     constructor({ width, height, items = [], gap = 16, direction = 'vertical', padding = 20, border = COLOR.border, background = COLOR.card, radius = 16 } = {}) {
@@ -84,7 +85,7 @@ export class ScrollBox extends PIXI.Container {
 
     _bindEvents() {
         this.on('touchstart', (e) => {
-            console.log(`[ScrollBox] touchstart, globalY=${e.data.global.y}, time=${Date.now()}`);
+            logger.debug(`[ScrollBox] touchstart, globalY=${e.data.global.y}, time=${Date.now()}`);
             e.stopPropagation();
             this._last = this._isH ? e.data.global.x : e.data.global.y;
             this._lastTime = Date.now();

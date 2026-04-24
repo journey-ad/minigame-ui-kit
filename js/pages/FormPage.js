@@ -1,5 +1,5 @@
 import * as PIXI from '../../libs/pixi.min';
-import { CheckBox, Switch, Radio, Input, Select, Slider, Page, COLOR, SIZE, FONT } from '../ui/index';
+import { CheckBox, Switch, Radio, Input, Select, Slider, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
 
 export default class FormPage extends Page {
     constructor(w, h) {
@@ -26,7 +26,7 @@ export default class FormPage extends Page {
         const input1 = new Input({
             width: SIZE.inputW, height: SIZE.inputH,
             placeholder: '请输入用户名...',
-            onChange: (v) => console.log(`[Input] 用户名: ${v}`),
+            onChange: (v) => logger.info(`[Input] 用户名: ${v}`),
         });
         input1.x = SIZE.pad;
         input1.y = y;
@@ -38,7 +38,7 @@ export default class FormPage extends Page {
             placeholder: '请输入密码...',
             type: 'password',
             maxLength: 20,
-            onChange: (v) => console.log(`[Input] 密码已更新, 长度: ${v.length}`),
+            onChange: (v) => logger.info(`[Input] 密码已更新, 长度: ${v.length}`),
         });
         input2.x = SIZE.pad;
         input2.y = y;
@@ -55,7 +55,7 @@ export default class FormPage extends Page {
         const selectBox = new Select({
             width: SIZE.inputW, height: SIZE.inputH,
             items: ['微信渠道', '抖音渠道', 'TikTok', 'Vivo', 'OPPO'],
-            onChange: (v) => console.log(`[Select] ${v}`),
+            onChange: (v) => logger.info(`[Select] ${v}`),
         });
         selectBox.x = SIZE.pad;
         selectBox.y = y;
@@ -74,7 +74,7 @@ export default class FormPage extends Page {
             const cb = new CheckBox({
                 text: name,
                 checked: i === 0,
-                onChange: (v) => console.log(`[CheckBox] ${name}: ${v}`),
+                onChange: (v) => logger.info(`[CheckBox] ${name}: ${v}`),
             });
             cb.x = SIZE.pad;
             cb.y = y;
@@ -99,7 +99,7 @@ export default class FormPage extends Page {
 
             const sw = new Switch({
                 checked: name === '消息推送',
-                onChange: (v) => console.log(`[Switch] ${name}: ${v}`),
+                onChange: (v) => logger.info(`[Switch] ${name}: ${v}`),
             });
             sw.x = SIZE.pad + 300;
             sw.y = y;
@@ -118,7 +118,7 @@ export default class FormPage extends Page {
         const radio = new Radio({
             items: ['简单模式', '普通模式', '困难模式'],
             value: 1,
-            onChange: (idx, text) => console.log(`[Radio] ${text}`),
+            onChange: (idx, text) => logger.info(`[Radio] ${text}`),
         });
         radio.x = SIZE.pad;
         radio.y = y;

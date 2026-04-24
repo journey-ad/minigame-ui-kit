@@ -1,5 +1,6 @@
 import * as PIXI from '../common/pixi';
 import { COLOR } from '../common/styles';
+import logger from '../common/logger';
 
 export class Swiper extends PIXI.Container {
     constructor({ width, height, items, gap = 24, autoplay = true, interval = 3000, loop = true } = {}) {
@@ -257,6 +258,7 @@ export class Swiper extends PIXI.Container {
 
     goTo(index) {
         if (index < 0 || index >= this._count) return;
+        logger.debug(`[Swiper] goTo ${index}`);
         this._current = index;
         this._index = this._loop ? index + 1 : index;
         this._drawDots();

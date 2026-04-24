@@ -3,6 +3,7 @@ import { drawRoundedRect, isTap } from '../common/utils';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import stage, { LAYER } from '../common/stage';
 import tapOutside from '../common/tapOutside';
+import logger from '../common/logger';
 
 export class Select extends PIXI.Container {
     constructor({ width, height, items, onChange } = {}) {
@@ -40,6 +41,7 @@ export class Select extends PIXI.Container {
 
     _setOpen(v) {
         this._open = v;
+        logger.debug(`[Select] ${v ? 'open' : 'close'}`);
         this._arrow.text = v ? '\u25B2' : '\u25BC';
 
         if (this._tweenFn) {

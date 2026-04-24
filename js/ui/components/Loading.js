@@ -1,12 +1,14 @@
 import * as PIXI from '../common/pixi';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import stage, { LAYER } from '../common/stage';
+import logger from '../common/logger';
 
 let _current = null;
 let _tickFn = null;
 
 export const Loading = {
     show({ text = '' } = {}) {
+        logger.debug('[Loading] show', text);
         if (_current) {
             Loading.hide();
         }
@@ -73,6 +75,7 @@ export const Loading = {
 
     hide() {
         if (!_current) return;
+        logger.debug('[Loading] hide');
         if (_tickFn) {
             PIXI.ticker.shared.remove(_tickFn);
             _tickFn = null;

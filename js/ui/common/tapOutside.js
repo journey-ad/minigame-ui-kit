@@ -1,4 +1,5 @@
 import * as PIXI from './pixi';
+import logger from './logger';
 
 // tapOutside: 点击目标外部区域时触发回调
 const _registry = new Map();
@@ -20,7 +21,7 @@ function _check(x, y) {
             }
         }
         if (!inside) {
-            console.log(`[tapOutside] outside: key=${key}`);
+            logger.debug(`[tapOutside] outside: key=${key}`);
             state.callback();
         }
     }
@@ -47,7 +48,7 @@ imProto.onPointerUp = function (e) {
     if (ct) {
         const p = { x: 0, y: 0 };
         this.mapPositionToPoint(p, ct.clientX, ct.clientY);
-        console.log(`[tapOutside] pointerUp mapped=(${p.x|0},${p.y|0}), registry=${_registry.size}`);
+        logger.debug(`[tapOutside] pointerUp mapped=(${p.x|0},${p.y|0}), registry=${_registry.size}`);
         _check(p.x, p.y);
     }
 };

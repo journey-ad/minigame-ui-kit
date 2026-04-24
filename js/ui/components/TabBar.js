@@ -3,6 +3,7 @@ import { isTap } from '../common/utils';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import Icon from './Icon';
 import { ICON_NAMES } from '../icons/index';
+import logger from '../common/logger';
 
 export class TabBar extends PIXI.Container {
     constructor({ screenWidth, tabs, onSwitch } = {}) {
@@ -82,6 +83,7 @@ export class TabBar extends PIXI.Container {
 
     setActive(index) {
         if (this._active === index) return;
+        logger.debug(`[TabBar] switch ${this._active} → ${index}`);
         this._active = index;
         this._drawTabs();
         this.emit('switch', index);

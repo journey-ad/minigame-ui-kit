@@ -1,6 +1,7 @@
 import * as PIXI from '../common/pixi';
 import { isTap } from '../common/utils';
 import stage, { LAYER } from '../common/stage';
+import logger from '../common/logger';
 
 export class Overlay extends PIXI.Container {
     /**
@@ -49,6 +50,7 @@ export class Overlay extends PIXI.Container {
 
     show() {
         if (this._showing) return;
+        logger.debug('[Overlay] show');
         this._showing = true;
         this._closing = false;
         stage.addTo(LAYER.LAYER_0, this);
@@ -71,6 +73,7 @@ export class Overlay extends PIXI.Container {
 
     close() {
         if (this._closing) return;
+        logger.debug('[Overlay] close');
         this._closing = true;
 
         const duration = 120;

@@ -1,8 +1,10 @@
 import Modal from './Modal';
 import stage, { LAYER } from '../common/stage';
+import logger from '../common/logger';
 
 export const Dialog = {
     alert(options = {}) {
+        logger.debug('[Dialog] alert', options.title || '');
         return new Promise((resolve) => {
             const modal = new Modal({
                 ...options,
@@ -17,6 +19,7 @@ export const Dialog = {
     },
 
     confirm(options = {}) {
+        logger.debug('[Dialog] confirm', options.title || '');
         return new Promise((resolve, reject) => {
             const modal = new Modal({
                 ...options,

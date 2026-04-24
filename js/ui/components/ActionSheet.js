@@ -2,9 +2,11 @@ import * as PIXI from '../common/pixi';
 import { drawRoundedRect, isTap } from '../common/utils';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import stage, { LAYER } from '../common/stage';
+import logger from '../common/logger';
 
 export const ActionSheet = {
     show({ actions = [], cancelText = '取消' } = {}) {
+        logger.debug('[ActionSheet] show', actions.map(a => a.name));
         return new Promise((resolve, reject) => {
             const screenW = stage.screenW;
             const screenH = stage.screenH;

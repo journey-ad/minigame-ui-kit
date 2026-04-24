@@ -2,6 +2,7 @@ import * as PIXI from '../common/pixi';
 import { drawRoundedRect, isTap } from '../common/utils';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import tapOutside from '../common/tapOutside';
+import logger from '../common/logger';
 
 // 浏览器环境默认适配器，通过隐藏 DOM input 拉起键盘
 // 小游戏环境需通过 Input.setDefaultAdapter() 替换为平台适配器
@@ -206,7 +207,7 @@ export class Input extends PIXI.Container {
                 },
             });
         } catch (e) {
-            console.error('[Input] adapter error:', e);
+            logger.error('[Input] adapter error:', e);
         }
     }
 

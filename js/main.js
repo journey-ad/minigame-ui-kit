@@ -1,12 +1,13 @@
 import '../libs/weapp-adapter.js';
 import * as PIXI from '../libs/pixi.min';
-import { TabBar, Input, stage, COLOR, SIZE } from './ui/index';
+import { TabBar, Input, stage, logger, COLOR, SIZE } from './ui/index';
 import { initPlatform, patchCoordinateMapping, keyboardAdapter } from './platform';
 import pageRegistry from './pages/index';
 
 export default class Main {
     constructor() {
-        console.log('PixiJS UI Demo 启动');
+        logger.setLevel(logger.LEVEL.DEBUG);
+        logger.info('PixiJS UI Demo 启动');
 
         const platform = initPlatform();
 
@@ -51,7 +52,7 @@ export default class Main {
             tabs: pageRegistry,
             onSwitch: (idx) => {
                 pages.forEach((page, j) => { page.visible = j === idx; });
-                console.log(`切换 Tab ${idx}`);
+                logger.info(`切换 Tab ${idx}`);
             },
         });
         tabBar.y = contentH;
@@ -59,6 +60,6 @@ export default class Main {
 
         // 初始化舞台
         stage.init(app.stage, screenW, screenH);
-        console.log('UI 初始化完成', screenW, screenH);
+        logger.info('UI 初始化完成', screenW, screenH);
     }
 }

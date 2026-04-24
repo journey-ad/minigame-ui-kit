@@ -23,3 +23,4 @@ export { stage } from './common/stage';
 export { tapOutside } from './common/tapOutside';
 export { drawRoundedRect, isTap } from './common/utils';
 export { COLOR, SIZE, FONT } from './common/styles';
+export { logger } from './common/logger';

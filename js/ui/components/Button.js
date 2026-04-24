@@ -1,6 +1,7 @@
 import * as PIXI from '../common/pixi';
 import { drawRoundedRect, isTap } from '../common/utils';
 import { COLOR, SIZE, FONT } from '../common/styles';
+import logger from '../common/logger';
 
 export class Button extends PIXI.Container {
     constructor({ text, width, height, color, textColor = COLOR.white, disabled = false, onTap } = {}) {
@@ -42,7 +43,7 @@ export class Button extends PIXI.Container {
 
     _bindEvents() {
         this.on('touchstart', (e) => {
-            console.log(`[Button] touchstart, y=${e.data.global.y}, time=${Date.now()}`);
+            logger.debug(`[Button] touchstart, y=${e.data.global.y}, time=${Date.now()}`);
             this._inner.scale.set(0.95);
             this._startY = e.data.global.y;
         });

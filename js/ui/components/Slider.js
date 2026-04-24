@@ -1,6 +1,7 @@
 import * as PIXI from '../common/pixi';
 import { drawRoundedRect } from '../common/utils';
 import { COLOR } from '../common/styles';
+import logger from '../common/logger';
 
 export class Slider extends PIXI.Container {
     constructor({ width, height, min, max, value, color = COLOR.primary, onUpdate } = {}) {
@@ -84,7 +85,12 @@ export class Slider extends PIXI.Container {
             this.emit('update', this._value);
         });
 
-        const onDragEnd = () => { this._dragging = false; };
+        const onDragEnd = () => {
+            if (this._dragging) {
+                logger.debug(`[Slider] value=${Math.round(this._value)}`);
+            }
+            this._dragging = false;
+        };
         this.on('touchend', onDragEnd);
         this.on('touchendoutside', onDragEnd);
     }
