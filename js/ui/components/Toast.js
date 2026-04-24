@@ -44,10 +44,11 @@ const ICON_DRAWERS = {
     success: drawSuccessIcon,
     error: drawErrorIcon,
     warning: drawWarningIcon,
+    none: null
 };
 
 export const Toast = {
-    show({ text = '', type = 'success', duration = 2000 } = {}) {
+    show({ text = '', type = 'none', duration = 2000 } = {}) {
         logger.debug(`[Toast] ${type}: ${text}`);
         if (_current && _current.parent) {
             stage.removeFrom(LAYER.LAYER_2, _current);
@@ -68,7 +69,9 @@ export const Toast = {
             fontFamily: FONT,
         });
 
-        const totalW = iconR * 2 + iconTextGap + label.width + padX * 2;
+        const drawIcon = ICON_DRAWERS[type];
+        const iconSlot = drawIcon ? iconR * 2 + iconTextGap : 0;
+        const totalW = iconSlot + label.width + padX * 2;
         const totalH = Math.max(iconR * 2, label.height) + padY * 2;
 
         // 背景
@@ -79,15 +82,14 @@ export const Toast = {
         container.addChild(bg);
 
         // 图标
-        const iconG = new PIXI.Graphics();
-        const drawIcon = ICON_DRAWERS[type];
         if (drawIcon) {
+            const iconG = new PIXI.Graphics();
             drawIcon(iconG, padX + iconR, totalH / 2, iconR);
+            container.addChild(iconG);
         }
-        container.addChild(iconG);
 
         // 文字
-        label.x = padX + iconR * 2 + iconTextGap;
+        label.x = padX + iconSlot;
         label.y = (totalH - label.height) / 2;
         container.addChild(label);
 
