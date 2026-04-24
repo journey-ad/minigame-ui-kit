@@ -2,7 +2,7 @@ import * as PIXI from '../common/pixi';
 import { isTap } from '../common/utils';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import Icon from './Icon';
-import { ICON_NAMES } from '../icons/index';
+import { ALL_ICONS } from '../icons/index';
 import logger from '../common/logger';
 
 export class TabBar extends PIXI.Container {
@@ -42,7 +42,7 @@ export class TabBar extends PIXI.Container {
             const labelY = Math.round(SIZE.tabH * 0.67);
 
             let iconDisplay;
-            if (ICON_NAMES.includes(tabData.icon)) {
+            if (ALL_ICONS.includes(tabData.icon)) {
                 iconDisplay = new Icon({ name: tabData.icon, size: iconSize, color: idx === 0 ? COLOR.white : COLOR.textSec });
                 iconDisplay.x = tabW / 2 - iconSize / 2;
                 iconDisplay.y = iconY;

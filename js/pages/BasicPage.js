@@ -1,9 +1,29 @@
 import * as PIXI from '../../libs/pixi.min';
-import { Button, Icon, ICON_NAMES, Collapse, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
+import { Button, Icon, Input, ScrollBox, Page, Toast, logger, COLOR, SIZE, FONT, ALL_ICONS } from '../ui/index';
+
+const DEFAULT_ICONS = [
+    'home', 'menu', 'search', 'arrow-up', 'arrow-down', 'arrow-left', 'arrow-right',
+    'chevron-up', 'chevron-down', 'chevron-left', 'chevron-right', 'check', 'x', 'plus',
+    'minus', 'edit', 'trash-2', 'copy', 'eye', 'eye-off', 'lock', 'unlock', 'user',
+    'users', 'settings', 'bell', 'mail', 'phone', 'calendar', 'clock', 'star', 'heart',
+    'bookmark', 'flag', 'tag', 'folder', 'file', 'image', 'camera', 'video', 'music',
+    'mic', 'volume-2', 'wifi', 'bluetooth', 'battery', 'monitor', 'smartphone', 'tablet',
+    'laptop', 'globe', 'map-pin', 'navigation', 'compass', 'link', 'external-link',
+    'download', 'upload', 'share', 'refresh-cw', 'rotate-cw', 'undo', 'redo', 'filter',
+    'list', 'grid-2x2', 'layout', 'sidebar', 'maximize', 'minimize', 'zoom-in', 'zoom-out',
+    'info', 'alert-triangle', 'alert-circle', 'circle-check', 'circle-x', 'help-circle',
+    'loader', 'activity', 'bar-chart', 'pie-chart', 'trending-up', 'trending-down',
+    'database', 'server', 'cloud', 'cloud-off', 'code', 'terminal', 'git-branch',
+    'package', 'box', 'layers', 'cpu', 'hard-drive', 'send', 'log-in', 'log-out',
+];
 
 export default class BasicPage extends Page {
     constructor(w, h) {
         super(w, h);
+        this._cols = 5;
+        this._iconSize = 64;
+        this._cellW = Math.floor((w - SIZE.pad * 2 - 24 * 2) / this._cols);
+        this._cellH = 145;
         this._build();
     }
 
@@ -87,34 +107,101 @@ export default class BasicPage extends Page {
         this.addChild(customLabel);
         y += 90;
 
-        // === Icon (图标库 - 折叠面板) ===
-        const contentW = w - SIZE.pad * 2;
-        const cols = 5;
-        const cellW = Math.floor((contentW - 24 * 2) / cols);
-        const iconSize = 64;
-        const cellH = 145;
+        // 网络图标
+        if (typeof wx !== 'undefined' && typeof wx.downloadFile === 'function') {
+            const netIcon = new Icon({ width: 155, height: 122 });
+            netIcon.x = SIZE.pad;
+            netIcon.y = y;
+            this.addChild(netIcon);
 
-        const unique = [...new Set(ICON_NAMES)];
+            const netLabel = new PIXI.Text('网络图标 (加载中...)', {
+                fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT,
+            });
+            netLabel.x = SIZE.pad + 165;
+            netLabel.y = y + 40;
+            this.addChild(netLabel);
 
-        const gridContent = new PIXI.Container();
-        for (let i = 0; i < unique.length; i += cols) {
-            const rowNames = unique.slice(i, i + cols);
-            const rowIdx = Math.floor(i / cols);
-            const row = this._buildRow(rowNames, cellW, cellH, iconSize);
-            row.y = rowIdx * (cellH + 8);
-            gridContent.addChild(row);
+            wx.downloadFile({
+                url: 'https://ys.mihoyo.com/main/_nuxt/img/logo.38d3f3b.png',
+                success: (res) => {
+                    netIcon.setPath(res.tempFilePath);
+                    netLabel.text = '网络图标 (已加载)';
+                    netIcon.interactive = true;
+                    netIcon.on('pointertap', () => Toast.show({ text: '原神启动' }))
+                },
+                fail: () => {
+                    netLabel.text = '网络图标 (加载失败)';
+                },
+            });
         }
+        y += 140;
 
-        const collapse = new Collapse({
-            title: `图标库 Icon（${unique.length}）`,
-            width: contentW,
-            content: gridContent,
-            height: 800,
-            expanded: true,
+        // === Icon (图标库) ===
+        secLabel = new PIXI.Text('图标库 Icon', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        secLabel.x = SIZE.pad;
+        secLabel.y = y;
+        this.addChild(secLabel);
+        y += 50;
+
+        this._countLabel = new PIXI.Text('', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        this._countLabel.x = SIZE.pad + 200;
+        this._countLabel.y = y - 50;
+        this.addChild(this._countLabel);
+
+        const searchInput = new Input({
+            width: w - SIZE.pad * 2,
+            height: 100,
+            placeholder: '搜索图标名称...',
+            onInput: (v) => this._onSearch(v),
         });
-        collapse.x = SIZE.pad;
-        collapse.y = y;
-        this.addChild(collapse);
+        searchInput.x = SIZE.pad;
+        searchInput.y = y;
+        this.addChild(searchInput);
+        y += 120;
+
+        const scrollH = this._h - y - 60;
+        this._scrollBox = new ScrollBox({
+            width: w - SIZE.pad * 2,
+            height: scrollH,
+            padding: 24,
+            gap: 8,
+            background: COLOR.card,
+            border: COLOR.border,
+        });
+        this._scrollBox.x = SIZE.pad;
+        this._scrollBox.y = y;
+        this.addChild(this._scrollBox);
+
+        this._renderIcons(DEFAULT_ICONS);
+    }
+
+    _onSearch(keyword) {
+        const q = keyword.trim().toLowerCase();
+        const list = q.length < 2 ? DEFAULT_ICONS : ALL_ICONS.filter(n => n.includes(q));
+        this._renderIcons(list);
+    }
+
+    _renderIcons(names) {
+        const content = this._scrollBox._content;
+        while (content.children.length > 0) {
+            content.removeChildAt(0);
+        }
+        this._scrollBox._offset = this._scrollBox._pad;
+        this._scrollBox._scroll = 0;
+        this._scrollBox._applyScroll();
+
+        this._countLabel.text = `共 ${ALL_ICONS.length} 个`;
+
+        const cols = this._cols;
+        const cellW = this._cellW;
+        const cellH = this._cellH;
+        const iconSize = this._iconSize;
+
+        for (let i = 0; i < names.length; i += cols) {
+            const rowNames = names.slice(i, i + cols);
+            const row = this._buildRow(rowNames, cellW, cellH, iconSize);
+            this._scrollBox.addItem(row);
+        }
     }
 
     _buildRow(names, cellW, cellH, iconSize) {
