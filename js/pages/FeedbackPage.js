@@ -67,27 +67,35 @@ export default class FeedbackPage extends Page {
         this.addChild(secLabel);
         y += 50;
 
+        const btnToastDefault = new Button({
+            text: '默认提示', width: 220, height: SIZE.btnH, color: COLOR.gray100, textColor: COLOR.textDark,
+            onTap: () => Toast.show({ text: '这是一条提示', type: 'none' }),
+        });
+        btnToastDefault.x = SIZE.pad;
+        btnToastDefault.y = y;
+        this.addChild(btnToastDefault);
+
         const btnToastOk = new Button({
-            text: '成功提示', width: 300, height: SIZE.btnH, color: COLOR.success,
+            text: '成功提示', width: 220, height: SIZE.btnH, color: COLOR.success,
             onTap: () => Toast.show({ text: '操作成功', type: 'success' }),
         });
-        btnToastOk.x = SIZE.pad;
+        btnToastOk.x = SIZE.pad + 240;
         btnToastOk.y = y;
         this.addChild(btnToastOk);
 
         const btnToastErr = new Button({
-            text: '错误提示', width: 300, height: SIZE.btnH, color: COLOR.danger,
+            text: '错误提示', width: 220, height: SIZE.btnH, color: COLOR.danger,
             onTap: () => Toast.show({ text: '操作失败', type: 'error' }),
         });
-        btnToastErr.x = SIZE.pad + 340;
+        btnToastErr.x = SIZE.pad + 480;
         btnToastErr.y = y;
         this.addChild(btnToastErr);
 
         const btnToastWarn = new Button({
-            text: '警告提示', width: 300, height: SIZE.btnH, color: COLOR.warning, textColor: COLOR.textDark,
+            text: '警告提示', width: 220, height: SIZE.btnH, color: COLOR.warning, textColor: COLOR.textDark,
             onTap: () => Toast.show({ text: '请注意', type: 'warning' }),
         });
-        btnToastWarn.x = SIZE.pad + 680;
+        btnToastWarn.x = SIZE.pad + 720;
         btnToastWarn.y = y;
         this.addChild(btnToastWarn);
         y += SIZE.btnH + 60;

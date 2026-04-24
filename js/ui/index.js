@@ -18,6 +18,7 @@ export { Swiper } from './components/Swiper';
 export { ListItem } from './components/ListItem';
 export { Icon } from './components/Icon';
 export { Page } from './components/Page';
+export { Router } from './components/Router';
 export { ICON, ICON_NAMES, ICON_BASE } from './icons/index';
 export { stage } from './common/stage';
 export { tapOutside } from './common/tapOutside';
