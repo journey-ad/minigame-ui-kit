@@ -19,7 +19,9 @@ export class ScrollBox extends PIXI.Container {
         this._velocity = 0;
         this._lastTime = 0;
         this._friction = 0.95;
-        this._bounceMax = this._isH ? 120 : 200;
+        this._bounceMinCap = this._isH ? 40 : 60;
+        this._bounceMaxCap = this._isH ? 120 : 200;
+        this._bounceRatio = 0.2;
         this._bounceRate = this._isH ? 0.25 : 0.125;
         this._dirLocked = false;
         this._startX = 0;
@@ -81,10 +83,27 @@ export class ScrollBox extends PIXI.Container {
         return Math.min(0, -(this._contentSize - this._viewSize + this._pad));
     }
 
+    get _bounceMax() {
+        const overflow = Math.max(0, this._contentSize - this._viewSize);
+        return Math.min(this._bounceMaxCap, Math.max(this._bounceMinCap, overflow * this._bounceRatio));
+    }
+
     _clampWithBounce(v) {
         if (v > this._bounceMax) return this._bounceMax;
         if (v < this._minScroll - this._bounceMax) return this._minScroll - this._bounceMax;
         return v;
+    }
+
+    _dampenOverscroll(d) {
+        if (this._scroll > 0 && d > 0) {
+            const ratio = Math.min(this._scroll / this._bounceMax, 1);
+            return d * Math.max(0.02, (1 - ratio) * (1 - ratio));
+        }
+        if (this._scroll < this._minScroll && d < 0) {
+            const ratio = Math.min((this._minScroll - this._scroll) / this._bounceMax, 1);
+            return d * Math.max(0.02, (1 - ratio) * (1 - ratio));
+        }
+        return d;
     }
 
     _bindEvents() {
@@ -128,7 +147,7 @@ export class ScrollBox extends PIXI.Container {
             if (dt > 0) this._velocity = d / dt * 16;
             this._last = cur;
             this._lastTime = now;
-            this._scroll = this._clampWithBounce(this._scroll + d);
+            this._scroll = this._clampWithBounce(this._scroll + this._dampenOverscroll(d));
             this._applyScroll();
         });
 
@@ -151,7 +170,7 @@ export class ScrollBox extends PIXI.Container {
             let moved = false;
 
             if (Math.abs(this._velocity) > 0.5) {
-                this._scroll = this._clampWithBounce(this._scroll + this._velocity);
+                this._scroll = this._clampWithBounce(this._scroll + this._dampenOverscroll(this._velocity));
                 this._velocity *= this._friction;
                 moved = true;
             } else {
