@@ -128,14 +128,18 @@ export class Swiper extends PIXI.Container {
 
     _bindEvents() {
         let startX = 0;
+        let startY = 0;
         let startTime = 0;
         let dragging = false;
+        let dirLocked = false;
+        const dirThreshold = 8;
 
         this.on('touchstart', (e) => {
-            e.stopPropagation();
             startX = e.data.global.x;
+            startY = e.data.global.y;
             startTime = Date.now();
             dragging = true;
+            dirLocked = false;
             this._stopAutoplay();
             this._stopAnimation();
             // 如果停在 clone 区域，立即跳转到真实位置再开始拖拽
@@ -145,7 +149,21 @@ export class Swiper extends PIXI.Container {
 
         this.on('touchmove', (e) => {
             if (!dragging) return;
+
+            // 锁定拖动方向为横向，避免影响父级的滚动
+            if (!dirLocked) {
+                const dx = Math.abs(e.data.global.x - startX);
+                const dy = Math.abs(e.data.global.y - startY);
+                if (Math.max(dx, dy) < dirThreshold) return;
+                if (dy > dx) {
+                    dragging = false;
+                    if (this._autoplay) this._startAutoplay();
+                    return;
+                }
+                dirLocked = true;
+            }
             e.stopPropagation();
+
             const dx = e.data.global.x - startX;
             this._content.x = this._dragBaseX + dx;
         });
@@ -153,6 +171,7 @@ export class Swiper extends PIXI.Container {
         const onEnd = (e) => {
             if (!dragging) return;
             dragging = false;
+            dirLocked = false;
 
             const dx = e.data.global.x - startX;
             const dt = Date.now() - startTime;

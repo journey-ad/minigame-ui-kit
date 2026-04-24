@@ -21,6 +21,10 @@ export class ScrollBox extends PIXI.Container {
         this._friction = 0.95;
         this._bounceMax = this._isH ? 120 : 200;
         this._bounceRate = this._isH ? 0.25 : 0.125;
+        this._dirLocked = false;
+        this._startX = 0;
+        this._startY = 0;
+        this._dirThreshold = 8;
 
         this.interactive = true;
         this.hitArea = new PIXI.Rectangle(0, 0, width, height);
@@ -86,15 +90,32 @@ export class ScrollBox extends PIXI.Container {
     _bindEvents() {
         this.on('touchstart', (e) => {
             logger.debug(`[ScrollBox] touchstart, globalY=${e.data.global.y}, time=${Date.now()}`);
-            e.stopPropagation();
+            this._startX = e.data.global.x;
+            this._startY = e.data.global.y;
             this._last = this._isH ? e.data.global.x : e.data.global.y;
             this._lastTime = Date.now();
             this._velocity = 0;
             this._scrolling = true;
+            this._dirLocked = false;
         });
 
         this.on('touchmove', (e) => {
             if (!this._scrolling) return;
+
+            // 锁定拖动方向，避免影响父级的滚动
+            if (!this._dirLocked) {
+                const dx = Math.abs(e.data.global.x - this._startX);
+                const dy = Math.abs(e.data.global.y - this._startY);
+                if (Math.max(dx, dy) < this._dirThreshold) return;
+                const movingH = dx > dy;
+                if (movingH !== this._isH) {
+                    this._scrolling = false;
+                    return;
+                }
+                this._dirLocked = true;
+            }
+            e.stopPropagation();
+
             const cur = this._isH ? e.data.global.x : e.data.global.y;
             const now = Date.now();
             const dt = now - this._lastTime;
@@ -106,7 +127,7 @@ export class ScrollBox extends PIXI.Container {
             this._applyScroll();
         });
 
-        const onEnd = () => { this._scrolling = false; };
+        const onEnd = () => { this._scrolling = false; this._dirLocked = false; };
         this.on('touchend', onEnd);
         this.on('touchendoutside', onEnd);
     }
