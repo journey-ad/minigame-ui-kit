@@ -112,6 +112,11 @@ export class ScrollBox extends PIXI.Container {
                     this._scrolling = false;
                     return;
                 }
+                const d = (this._isH ? e.data.global.x : e.data.global.y) - (this._isH ? this._startX : this._startY);
+                if ((this._scroll >= 0 && d > 0) || (this._scroll <= this._minScroll && d < 0)) {
+                    this._scrolling = false;
+                    return;
+                }
                 this._dirLocked = true;
             }
             e.stopPropagation();
