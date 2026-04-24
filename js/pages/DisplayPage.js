@@ -9,7 +9,7 @@ export default class DisplayPage extends Page {
 
     _build() {
         const w = this._w;
-        let y = 20;
+        let y = 100;
 
         const title = new PIXI.Text('展示组件', {
             fontSize: SIZE.textSizeXxl,

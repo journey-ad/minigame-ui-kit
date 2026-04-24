@@ -12,9 +12,9 @@ function addViewBg(view, w, h) {
 function buildHomeView(w, h, router) {
     const view = new PIXI.Container();
     addViewBg(view, w, h);
-    let y = 140;
+    let y = 100;
 
-    const title = new PIXI.Text('Router Demo', { fontSize: SIZE.textSizeXxl, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
+    const title = new PIXI.Text('路由组件', { fontSize: SIZE.textSizeXxl, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
     title.x = SIZE.pad;
     title.y = y;
     view.addChild(title);
@@ -95,7 +95,7 @@ function buildHomeView(w, h, router) {
 function buildDetailView(w, h, router, params) {
     const view = new PIXI.Container();
     addViewBg(view, w, h);
-    let y = 140;
+    let y = 100;
 
     const backBtn = new Button({
         text: '← 返回', width: 200, height: 80, color: COLOR.surface,
@@ -168,7 +168,7 @@ function buildDetailView(w, h, router, params) {
 function buildListView(w, h, router) {
     const view = new PIXI.Container();
     addViewBg(view, w, h);
-    let y = 140;
+    let y = 100;
 
     const backBtn = new Button({
         text: '← 返回', width: 200, height: 80, color: COLOR.surface,

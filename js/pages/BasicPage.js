@@ -29,7 +29,7 @@ export default class BasicPage extends Page {
 
     _build() {
         const w = this._w;
-        let y = 20;
+        let y = 100;
 
         const title = new PIXI.Text('基础组件', { fontSize: SIZE.textSizeXxl, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
         title.x = SIZE.pad;

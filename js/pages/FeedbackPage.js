@@ -8,7 +8,7 @@ export default class FeedbackPage extends Page {
     }
 
     _build() {
-        let y = 20;
+        let y = 100;
 
         const title = new PIXI.Text('反馈组件', { fontSize: SIZE.textSizeXxl, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
         title.x = SIZE.pad;
