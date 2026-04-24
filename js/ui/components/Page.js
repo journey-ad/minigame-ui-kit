@@ -63,6 +63,7 @@ export class Page extends PIXI.Container {
         };
 
         this.on('touchstart', (e) => {
+            console.log(`[Page] touchstart, y=${e.data.global.y}, time=${Date.now()}`);
             this._canScroll = this._contentHeight > this._h;
             this._lastY = e.data.global.y;
             this._lastTime = Date.now();

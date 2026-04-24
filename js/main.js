@@ -58,7 +58,7 @@ export default class Main {
         app.stage.addChild(tabBar);
 
         // 初始化舞台
-        stage.init(app.stage, screenW, screenH, app.renderer);
+        stage.init(app.stage, screenW, screenH);
         console.log('UI 初始化完成', screenW, screenH);
     }
 }

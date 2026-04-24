@@ -1,13 +1,14 @@
+import * as PIXI from './pixi';
+
 // tapOutside: 点击目标外部区域时触发回调
 const _registry = new Map();
 let _startY = 0;
-let _hooked = false;
 
 function _check(x, y) {
     if (_registry.size === 0) return;
     if (Math.abs(_startY - y) >= 5) return;
 
-    for (const [, state] of _registry) {
+    for (const [key, state] of _registry) {
         let inside = false;
         for (const target of state.targets) {
             if (!target.parent) continue;
@@ -19,36 +20,39 @@ function _check(x, y) {
             }
         }
         if (!inside) {
+            console.log(`[tapOutside] outside: key=${key}`);
             state.callback();
         }
     }
 }
 
+// 在模块加载时 patch 原型，确保 PIXI bind 时捕获到 patch 后的版本
+const imProto = PIXI.interaction.InteractionManager.prototype;
+const _origDown = imProto.onPointerDown;
+const _origUp = imProto.onPointerUp;
+
+imProto.onPointerDown = function (e) {
+    _origDown.call(this, e);
+    const t = e.touches && e.touches[0];
+    if (t && _registry.size > 0) {
+        const p = { x: 0, y: 0 };
+        this.mapPositionToPoint(p, t.clientX, t.clientY);
+        _startY = p.y;
+    }
+};
+
+imProto.onPointerUp = function (e) {
+    _origUp.call(this, e);
+    const ct = e.changedTouches && e.changedTouches[0];
+    if (ct) {
+        const p = { x: 0, y: 0 };
+        this.mapPositionToPoint(p, ct.clientX, ct.clientY);
+        console.log(`[tapOutside] pointerUp mapped=(${p.x|0},${p.y|0}), registry=${_registry.size}`);
+        _check(p.x, p.y);
+    }
+};
+
 export const tapOutside = {
-    hookRenderer(renderer) {
-        if (_hooked || !renderer) return;
-        _hooked = true;
-
-        const im = renderer.plugins.interaction;
-        const origDown = im.onPointerDown.bind(im);
-        const origUp = im.onPointerUp.bind(im);
-
-        im.onPointerDown = (e) => {
-            origDown(e);
-            const t = e.touches && e.touches[0];
-            if (t && _registry.size > 0) {
-                _startY = t.clientY;
-            }
-        };
-        im.onPointerUp = (e) => {
-            origUp(e);
-            const ct = e.changedTouches && e.changedTouches[0];
-            if (ct) {
-                _check(ct.clientX, ct.clientY);
-            }
-        };
-    },
-
     on(key, targets, callback) {
         _registry.set(key, { targets: Array.isArray(targets) ? targets : [targets], callback });
     },

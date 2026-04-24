@@ -42,6 +42,7 @@ export class Button extends PIXI.Container {
 
     _bindEvents() {
         this.on('touchstart', (e) => {
+            console.log(`[Button] touchstart, y=${e.data.global.y}, time=${Date.now()}`);
             this._inner.scale.set(0.95);
             this._startY = e.data.global.y;
         });

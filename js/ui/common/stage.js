@@ -1,5 +1,4 @@
 import * as PIXI from './pixi';
-import tapOutside from './tapOutside';
 
 let _stageInstance = null;
 let _screenW = 0;
@@ -23,7 +22,7 @@ export const LAYER = {
 const _layers = [];
 
 export const stage = {
-    init(stageInstance, screenW, screenH, renderer) {
+    init(stageInstance, screenW, screenH) {
         _stageInstance = stageInstance;
         _screenW = screenW;
         _screenH = screenH;
@@ -34,8 +33,6 @@ export const stage = {
             _layers[i] = container;
             stageInstance.addChild(container);
         }
-
-        tapOutside.hookRenderer(renderer);
     },
 
     get instance() { return _stageInstance; },

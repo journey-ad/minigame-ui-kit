@@ -84,6 +84,7 @@ export class ScrollBox extends PIXI.Container {
 
     _bindEvents() {
         this.on('touchstart', (e) => {
+            console.log(`[ScrollBox] touchstart, globalY=${e.data.global.y}, time=${Date.now()}`);
             e.stopPropagation();
             this._last = this._isH ? e.data.global.x : e.data.global.y;
             this._lastTime = Date.now();
