@@ -28,6 +28,8 @@ export class ScrollBox extends PIXI.Container {
         this._startY = 0;
         this._dirThreshold = 8;
 
+        this._boundaryHitDir = 0;
+
         this.interactive = true;
         this.hitArea = new PIXI.Rectangle(0, 0, width, height);
 
@@ -155,7 +157,10 @@ export class ScrollBox extends PIXI.Container {
             if (!this._dirLocked) {
                 const dx = Math.abs(e.data.global.x - this._startX);
                 const dy = Math.abs(e.data.global.y - this._startY);
-                if (Math.max(dx, dy) < this._dirThreshold) return;
+                if (Math.max(dx, dy) < this._dirThreshold) {
+                    e.stopPropagation();
+                    return;
+                }
                 const movingH = dx > dy;
                 if (movingH !== this._isH) {
                     this._scrolling = false;
@@ -163,9 +168,15 @@ export class ScrollBox extends PIXI.Container {
                 }
                 const d = (this._isH ? e.data.global.x : e.data.global.y) - (this._isH ? this._startX : this._startY);
                 if ((this._scroll >= 0 && d > 0) || (this._scroll <= this._minScroll && d < 0)) {
-                    if (this._parentCanScroll(d)) {
+                    const dir = d > 0 ? 1 : -1;
+                    const now = Date.now();
+                    const isSecondAttempt = dir === this._boundaryHitDir
+                    if (isSecondAttempt && this._parentCanScroll(d)) {
                         this._scrolling = false;
                         return;
+                    }
+                    if (!isSecondAttempt) {
+                        this._boundaryHitDir = dir;
                     }
                 }
                 this._dirLocked = true;
