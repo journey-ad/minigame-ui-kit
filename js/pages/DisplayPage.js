@@ -249,6 +249,76 @@ export default class DisplayPage extends Page {
         this.addChild(hScroll);
         y += 220;
 
+        // === 多层嵌套滚动 ===
+        secLabel = new PIXI.Text('多层嵌套滚动', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.textSec,
+            fontFamily: FONT
+        });
+        secLabel.x = SIZE.pad;
+        secLabel.y = y;
+        this.addChild(secLabel);
+        y += 50;
+
+        const nestColors = [0x795548, 0x607D8B, 0x9C27B0, 0x00BCD4, 0xFF9800, 0x8BC34A];
+        const makeLabel = (text, w, h, color) => {
+            const c = new PIXI.Container();
+            c._itemW = w;
+            c._itemH = h;
+            const bg = new PIXI.Graphics();
+            bg.beginFill(color);
+            bg.drawRoundedRect(0, 0, w, h, 10);
+            bg.endFill();
+            c.addChild(bg);
+            const t = new PIXI.Text(text, { fontSize: 28, fill: COLOR.white, fontFamily: FONT });
+            t.x = 16;
+            t.y = (h - t.height) / 2;
+            c.addChild(t);
+            return c;
+        };
+
+        const innerW = listW - 120;
+
+        // 3层: 内层垂直
+        const l3Items = [];
+        for (let i = 0; i < 10; i++) {
+            l3Items.push(makeLabel(`L3 内层项 #${i + 1}`, innerW - 80, 70, nestColors[i % nestColors.length]));
+        }
+        const l3Scroll = new ScrollBox({ width: innerW - 40, height: 280, items: l3Items, gap: 8, padding: 12, radius: 10, background: 0x2A1A3E, border: 0x9C27B0 });
+
+        // 2层-A: 垂直，包含内层垂直
+        const l2aItems = [];
+        for (let i = 0; i < 4; i++) {
+            l2aItems.push(makeLabel(`L2-A 项 #${i + 1}`, innerW, 70, 0x3F51B5));
+        }
+        l2aItems.push(l3Scroll);
+        for (let i = 0; i < 4; i++) {
+            l2aItems.push(makeLabel(`L2-A 项 #${i + 5}`, innerW, 70, 0x3F51B5));
+        }
+        const l2aScroll = new ScrollBox({ width: innerW + 40, height: 400, items: l2aItems, gap: 10, padding: 16, radius: 12, background: 0x1A2A4E, border: 0x3F51B5 });
+
+        // 2层-B: 垂直
+        const l2bItems = [];
+        for (let i = 0; i < 8; i++) {
+            l2bItems.push(makeLabel(`L2-B 项 #${i + 1}`, innerW, 70, 0x009688));
+        }
+        const l2bScroll = new ScrollBox({ width: innerW + 40, height: 300, items: l2bItems, gap: 10, padding: 16, radius: 12, background: 0x1A2E2A, border: 0x009688 });
+
+        // 2层-C: 水平
+        const l2cItems = [];
+        for (let i = 0; i < 10; i++) {
+            l2cItems.push(makeLabel(`L2-C #${i + 1}`, 180, 120, nestColors[i % nestColors.length]));
+        }
+        const l2cScroll = new ScrollBox({ width: innerW + 40, height: 160, items: l2cItems, gap: 12, direction: 'horizontal', padding: 16, radius: 12, background: 0x2E2A1A, border: 0xFF9800 });
+
+        // 1层: 外层垂直
+        const l1Items = [l2aScroll, l2bScroll, l2cScroll];
+        const nestScroll = new ScrollBox({ width: listW, height: 600, items: l1Items, gap: 16 });
+        nestScroll.x = SIZE.pad;
+        nestScroll.y = y;
+        this.addChild(nestScroll);
+        y += 620;
+
         // === Swiper ===
         secLabel = new PIXI.Text('轮播 Swiper', {
             fontSize: SIZE.textSizeSm,
