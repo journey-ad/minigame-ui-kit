@@ -1,9 +1,13 @@
 import PIXI from '../ui/common/pixi';
-import { Button, Dialog, Toast, Loading, ActionSheet, Overlay, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
+import { Button, Dialog, Toast, Loading, ActionSheet, Overlay, FloatBox, Page, LAYER, stage, logger } from '../ui/index';
+import { drawRoundedRect, isTap } from '../ui/common/utils';
+import { COLOR, SIZE, FONT } from '../ui/common/styles';
 
 export default class FeedbackPage extends Page {
     constructor(w, h) {
         super(w, h);
+        this._w = w;
+        this._h = h;
         this._build();
     }
 
@@ -182,5 +186,44 @@ export default class FeedbackPage extends Page {
         overlayBtn2.x = SIZE.pad + 440;
         overlayBtn2.y = y;
         this.addChild(overlayBtn2);
+        y += SIZE.btnH + 60;
+
+        // === FloatBox ===
+        let floatLabel = new PIXI.Text('悬浮球 FloatBox', { fontSize: SIZE.textSizeSm, fill: COLOR.textSec, fontFamily: FONT });
+        floatLabel.x = SIZE.pad;
+        floatLabel.y = y;
+        this.addChild(floatLabel);
+        y += 50;
+
+        const floatBox = new FloatBox({
+            size: 120,
+            bgColor: COLOR.primary,
+            icon: 'headphones',
+            // image: 'images/logo.png',
+            opacity: 0.8,
+            padding: 20,
+            borderRadius: 0.5,
+            x: this._w - 150,
+            y: this._h - 150,
+            onTap: () => logger.info('[FloatBox] 点击悬浮球'),
+        });
+        floatBox.visible = false;
+        stage.addTo(LAYER.LAYER_0, floatBox);
+
+        const btnShow = new Button({
+            text: '显示悬浮球', width: SIZE.btnW, height: SIZE.btnH, color: COLOR.success,
+            onTap: () => { floatBox.visible = true; },
+        });
+        btnShow.x = SIZE.pad;
+        btnShow.y = y;
+        this.addChild(btnShow);
+
+        const btnHide = new Button({
+            text: '隐藏悬浮球', width: SIZE.btnW, height: SIZE.btnH, color: COLOR.danger,
+            onTap: () => { floatBox.visible = false; },
+        });
+        btnHide.x = SIZE.pad + SIZE.btnW + 40;
+        btnHide.y = y;
+        this.addChild(btnHide);
     }
 }

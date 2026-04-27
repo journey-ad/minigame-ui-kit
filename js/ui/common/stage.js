@@ -20,6 +20,7 @@ export const LAYER = {
 };
 
 const _layers = [];
+const _pending = []; // init 前的 addTo 调用缓存
 
 export const stage = {
     init(stageInstance, screenW, screenH) {
@@ -33,6 +34,12 @@ export const stage = {
             _layers[i] = container;
             stageInstance.addChild(container);
         }
+
+        // flush pending
+        for (const { layer, child } of _pending) {
+            _layers[layer].addChild(child);
+        }
+        _pending.length = 0;
     },
 
     get instance() { return _stageInstance; },
@@ -40,7 +47,11 @@ export const stage = {
     get screenH() { return _screenH; },
 
     addTo(layer, child) {
-        _layers[layer].addChild(child);
+        if (_layers[layer]) {
+            _layers[layer].addChild(child);
+        } else {
+            _pending.push({ layer, child });
+        }
     },
 
     removeFrom(layer, child) {
