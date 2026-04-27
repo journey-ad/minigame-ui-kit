@@ -4,43 +4,17 @@ import { COLOR, SIZE, FONT } from '../common/styles';
 import tapOutside from '../common/tapOutside';
 import logger from '../common/logger';
 
-// 浏览器环境默认适配器，通过隐藏 DOM input 拉起键盘
-// 小游戏环境需通过 Input.setDefaultAdapter() 替换为平台适配器
-const DOMAdapter = {
+const NoopAdapter = {
     open(currentValue, options = {}) {
-        return new Promise((resolve) => {
-            let el = document.getElementById('__pixi_input_proxy');
-            if (!el) {
-                el = document.createElement('input');
-                el.id = '__pixi_input_proxy';
-                el.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;width:1px;height:1px;';
-                document.body.appendChild(el);
-            }
-            el.type = options.type === 'password' ? 'password' : 'text';
-            el.maxLength = options.maxLength || 524288;
-            el.value = currentValue;
-
-            const cleanup = () => {
-                el.removeEventListener('blur', onBlur);
-                el.removeEventListener('input', onInput);
-            };
-            const onBlur = () => {
-                cleanup();
-                resolve(el.value);
-            };
-            const onInput = () => {
-                if (options.onInput) {
-                    options.onInput(el.value);
-                }
-            };
-            el.addEventListener('blur', onBlur);
-            el.addEventListener('input', onInput);
-            el.focus();
-        });
+        if (options.onClose) {
+            options.onClose();
+        }
+        return Promise.resolve(currentValue);
     },
+    close() { },
 };
 
-let _defaultAdapter = DOMAdapter;
+let _defaultAdapter = NoopAdapter;
 let _activeInput = null;
 
 /**
@@ -57,7 +31,7 @@ let _activeInput = null;
 export class Input extends PIXI.Container {
 
     static setDefaultAdapter(adapter) {
-        _defaultAdapter = adapter;
+        _defaultAdapter = adapter || NoopAdapter;
     }
 
     constructor({
@@ -161,13 +135,14 @@ export class Input extends PIXI.Container {
             return;
         }
 
-        // 切换 Input 时，先关闭上一个的键盘，等平台完成关闭再拉起新键盘
+        const activeAdapter = _defaultAdapter || NoopAdapter;
+
         if (_activeInput && _activeInput !== this) {
-            const prevAdapter = _defaultAdapter;
             _activeInput._deactivate();
-            if (prevAdapter.close) {
-                prevAdapter.close();
-                await new Promise(r => setTimeout(r, 100));
+            if (typeof activeAdapter.close === 'function') {
+                // 切换 Input 时，先关闭上一个的键盘，等平台完成关闭再拉起新键盘
+                activeAdapter.close();
+                await new Promise((resolve) => setTimeout(resolve, 100));
             }
         }
 
@@ -177,7 +152,7 @@ export class Input extends PIXI.Container {
         this._drawBg(COLOR.primary);
         this._setCursor(true);
         tapOutside.on(this, [this], () => {
-            if (_defaultAdapter.close) {
+            if (typeof _defaultAdapter.close === 'function') {
                 _defaultAdapter.close();
             }
             if (_activeInput) {
@@ -186,11 +161,11 @@ export class Input extends PIXI.Container {
         });
 
         try {
-            await _defaultAdapter.open(this._value, {
+            await activeAdapter.open(this._value, {
                 type: this._type,
                 maxLength: this._maxLength,
-                // 回调始终路由到 _activeInput，防止切换后旧回调写入错误实例
                 onInput: (v) => {
+                    // 回调始终路由到 _activeInput，防止切换后旧回调写入错误实例
                     const target = _activeInput;
                     if (!target) {
                         return;
@@ -258,7 +233,7 @@ export class Input extends PIXI.Container {
             let truncated = display;
             while (truncated.length > 1) {
                 truncated = truncated.slice(0, -1);
-                this._text.text = truncated + '…';
+                this._text.text = `${truncated}...`;
                 if (this._text.width <= this._textMaxW) {
                     break;
                 }
