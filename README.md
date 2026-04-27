@@ -2,7 +2,7 @@
 
 基于 PixiJS 的微信小游戏 UI 组件库，提供一套完整的 UI 组件，适用于任何支持 WebGL 渲染的小游戏环境（包括微信、抖音 等小游戏平台，以及普通浏览器端的 H5 游戏）。包含 Button、Input、Dialog、Toast、Router 等二十余个常用组件，开箱即用，无需额外构建配置，适合快速搭建 Demo 或 MVP 原型
 
-## 预览
+## 预览 - https://gh.ovo.re/minigame-ui-kit/
 
 <p>
   <img src="docs/preview_1.png" width="30%" />
