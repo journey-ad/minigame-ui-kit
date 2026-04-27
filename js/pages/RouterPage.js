@@ -1,5 +1,6 @@
 import PIXI from '../ui/common/pixi';
-import { Button, Router, Page, ListItem, logger, COLOR, SIZE, FONT } from '../ui/index';
+import { Button, Router, Page, ListItem, logger } from '../ui/index';
+import { COLOR, SIZE, FONT } from '../ui/common/styles';
 
 function addViewBg(view, w, h) {
     const bg = new PIXI.Graphics();

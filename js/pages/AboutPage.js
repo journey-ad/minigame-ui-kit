@@ -1,5 +1,6 @@
 import PIXI from '../ui/common/pixi';
-import { Icon, Page, COLOR, SIZE, FONT } from '../ui/index';
+import { Icon, Page } from '../ui/index';
+import { COLOR, SIZE, FONT } from '../ui/common/styles';
 
 export default class AboutPage extends Page {
     constructor(w, h) {

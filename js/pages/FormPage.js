@@ -1,5 +1,6 @@
 import PIXI from '../ui/common/pixi';
-import { CheckBox, Switch, Radio, Input, Select, Slider, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
+import { CheckBox, Switch, Radio, Input, Select, Slider, Page, logger } from '../ui/index';
+import { COLOR, SIZE, FONT } from '../ui/common/styles';
 
 export default class FormPage extends Page {
     constructor(w, h) {

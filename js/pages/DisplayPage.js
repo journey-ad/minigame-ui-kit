@@ -1,5 +1,7 @@
 import PIXI from '../ui/common/pixi';
-import { Button, ScrollBox, Swiper, ListItem, ProgressBar, drawRoundedRect, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
+import { Button, ScrollBox, Swiper, ListItem, ProgressBar, Page, logger } from '../ui/index';
+import { drawRoundedRect, isTap } from '../ui/common/utils';
+import { COLOR, SIZE, FONT } from '../ui/common/styles';
 
 export default class DisplayPage extends Page {
     constructor(w, h) {

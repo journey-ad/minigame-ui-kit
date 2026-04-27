@@ -1,5 +1,7 @@
 import PIXI from '../ui/common/pixi';
-import { Button, Icon, Input, ScrollBox, Page, Toast, logger, COLOR, SIZE, FONT, ALL_ICONS } from '../ui/index';
+import { Button, Icon, Input, ScrollBox, Page, Toast, logger } from '../ui/index';
+import { COLOR, SIZE, FONT } from '../ui/common/styles';
+import { ALL_ICONS } from '../ui/icons/index';
 
 const DEFAULT_ICONS = [
     'home', 'menu', 'search', 'arrow-up', 'arrow-down', 'arrow-left', 'arrow-right',
