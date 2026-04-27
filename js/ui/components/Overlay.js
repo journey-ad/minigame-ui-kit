@@ -1,4 +1,4 @@
-import * as PIXI from '../common/pixi';
+import PIXI from '../common/pixi';
 import { isTap } from '../common/utils';
 import stage, { LAYER } from '../common/stage';
 import logger from '../common/logger';

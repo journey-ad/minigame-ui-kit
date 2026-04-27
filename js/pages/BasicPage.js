@@ -1,4 +1,4 @@
-import * as PIXI from '../../libs/pixi.min';
+import PIXI from '../ui/common/pixi';
 import { Button, Icon, Input, ScrollBox, Page, Toast, logger, COLOR, SIZE, FONT, ALL_ICONS } from '../ui/index';
 
 const DEFAULT_ICONS = [

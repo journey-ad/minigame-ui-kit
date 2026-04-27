@@ -1,4 +1,4 @@
-import * as PIXI from './pixi';
+import PIXI from './pixi';
 
 let _stageInstance = null;
 let _screenW = 0;

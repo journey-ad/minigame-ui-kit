@@ -1,4 +1,4 @@
-import * as PIXI from '../../libs/pixi.min';
+import PIXI from '../ui/common/pixi';
 import { Button, ScrollBox, Swiper, ListItem, ProgressBar, drawRoundedRect, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
 
 export default class DisplayPage extends Page {

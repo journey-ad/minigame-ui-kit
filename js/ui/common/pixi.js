@@ -1,4 +1,4 @@
-import * as PIXI from '../../../libs/pixi.min';
+import * as PIXI from '../libs/pixi.min.js';
 
 // PIXI v4 processInteractive 在命中测试前不更新 worldTransform，导致 hitArea 判定位置错误
 const _origProcess = PIXI.interaction.InteractionManager.prototype.processInteractive;
@@ -12,5 +12,5 @@ PIXI.interaction.InteractionManager.prototype.processInteractive = function (int
     return _origProcess.call(this, interactionEvent, displayObject, func, hitTest, interactive);
 };
 
-export * from '../../../libs/pixi.min';
-export { default } from '../../../libs/pixi.min';
+export * from '../libs/pixi.min.js';
+export default PIXI;

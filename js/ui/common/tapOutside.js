@@ -1,4 +1,4 @@
-import * as PIXI from './pixi';
+import PIXI from './pixi';
 import logger from './logger';
 
 // tapOutside: 点击目标外部区域时触发回调

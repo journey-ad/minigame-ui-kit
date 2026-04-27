@@ -1,5 +1,5 @@
 import '../libs/weapp-adapter.js';
-import * as PIXI from '../libs/pixi.min';
+import PIXI from './ui/common/pixi';
 import { TabBar, Input, stage, logger, COLOR, SIZE } from './ui/index';
 import { initPlatform, patchCoordinateMapping, keyboardAdapter } from './platform';
 import pageRegistry from './pages/index';

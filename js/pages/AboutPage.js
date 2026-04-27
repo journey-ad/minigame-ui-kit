@@ -1,4 +1,4 @@
-import * as PIXI from '../../libs/pixi.min';
+import PIXI from '../ui/common/pixi';
 import { Icon, Page, COLOR, SIZE, FONT } from '../ui/index';
 
 export default class AboutPage extends Page {

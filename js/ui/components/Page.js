@@ -1,4 +1,4 @@
-import * as PIXI from '../common/pixi';
+import PIXI from '../common/pixi';
 import { nextTick } from '../common/utils';
 import { SIZE } from '../common/styles';
 import logger from '../common/logger';

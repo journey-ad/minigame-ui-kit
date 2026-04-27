@@ -1,4 +1,4 @@
-import * as PIXI from '../../libs/pixi.min';
+import PIXI from '../ui/common/pixi';
 import { Button, Router, Page, ListItem, logger, COLOR, SIZE, FONT } from '../ui/index';
 
 function addViewBg(view, w, h) {

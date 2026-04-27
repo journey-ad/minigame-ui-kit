@@ -1,4 +1,4 @@
-import * as PIXI from '../common/pixi';
+import PIXI from '../common/pixi';
 import { COLOR, SIZE } from '../common/styles';
 import { ICON_BASE } from '../icons/index';
 

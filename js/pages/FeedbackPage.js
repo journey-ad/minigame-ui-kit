@@ -1,4 +1,4 @@
-import * as PIXI from '../../libs/pixi.min';
+import PIXI from '../ui/common/pixi';
 import { Button, Dialog, Toast, Loading, ActionSheet, Overlay, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
 
 export default class FeedbackPage extends Page {

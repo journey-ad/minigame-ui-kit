@@ -1,4 +1,4 @@
-import * as PIXI from '../common/pixi';
+import PIXI from '../common/pixi';
 import { isTap, lerpColor } from '../common/utils';
 import { COLOR } from '../common/styles';
 

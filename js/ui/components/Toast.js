@@ -1,4 +1,4 @@
-import * as PIXI from '../common/pixi';
+import PIXI from '../common/pixi';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import stage, { LAYER } from '../common/stage';
 import logger from '../common/logger';

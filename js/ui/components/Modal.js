@@ -1,4 +1,4 @@
-import * as PIXI from '../common/pixi';
+import PIXI from '../common/pixi';
 import { drawRoundedRect, isTap } from '../common/utils';
 import { COLOR, SIZE, FONT } from '../common/styles';
 import Button from './Button';

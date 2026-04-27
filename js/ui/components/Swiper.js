@@ -1,4 +1,4 @@
-import * as PIXI from '../common/pixi';
+import PIXI from '../common/pixi';
 import { COLOR } from '../common/styles';
 import logger from '../common/logger';
 

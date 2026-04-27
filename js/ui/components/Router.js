@@ -1,4 +1,4 @@
-import * as PIXI from '../common/pixi';
+import PIXI from '../common/pixi';
 import logger from '../common/logger';
 
 export class Router extends PIXI.Container {

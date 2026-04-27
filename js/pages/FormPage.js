@@ -1,4 +1,4 @@
-import * as PIXI from '../../libs/pixi.min';
+import PIXI from '../ui/common/pixi';
 import { CheckBox, Switch, Radio, Input, Select, Slider, Page, logger, COLOR, SIZE, FONT } from '../ui/index';
 
 export default class FormPage extends Page {

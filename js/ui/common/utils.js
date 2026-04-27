@@ -1,4 +1,4 @@
-import * as PIXI from './pixi';
+import PIXI from './pixi';
 
 export function drawRoundedRect(g, x, y, w, h, r, fill, border) {
     if (border) {

@@ -1,4 +1,4 @@
-import * as PIXI from '../libs/pixi.min';
+import PIXI from './ui/common/pixi';
 
 /**
  * 平台初始化：获取 canvas 和尺寸
