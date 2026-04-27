@@ -392,4 +392,5 @@ export const ALL_ICONS = [
     'zodiac-virgo', 'zoom-in', 'zoom-out',
 ];
 
-export const ICON_BASE = 'js/ui/icons/png';
+// 允许构建工具通过 define 注入平台特定路径
+export const ICON_BASE = typeof __ICON_BASE__ !== 'undefined' ? __ICON_BASE__ : 'js/ui/icons/png';
