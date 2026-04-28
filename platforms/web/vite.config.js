@@ -1,32 +1,36 @@
 import { defineConfig } from 'vite';
 import path from 'path';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+import fs from 'fs';
 
-const projectRoot = path.resolve(import.meta.dirname, '../..');
+const root = path.resolve(import.meta.dirname, '../..');
+const iconsDir = path.resolve(root, 'app/ui/icons/png');
 
 export default defineConfig({
+  root: import.meta.dirname,
   base: './',
-  publicDir: path.resolve(import.meta.dirname, 'public'),
-  build: {
-    outDir: path.resolve(import.meta.dirname, 'dist'),
-    emptyOutDir: true,
+  resolve: {
+    alias: {
+      '@': root,
+    },
   },
   define: {
     __ICON_BASE__: JSON.stringify('./icons'),
   },
-  resolve: {
-    alias: {
-      '@': projectRoot,
-    },
-  },
   plugins: [
-    viteStaticCopy({
-      targets: [
-        {
-          src: path.resolve(projectRoot, 'js/ui/icons/png/*'),
-          dest: 'icons',
-        },
-      ],
-    }),
+    {
+      name: 'serve-icons',
+      configureServer(server) {
+        server.middlewares.use('/icons', (req, res) => {
+          const filePath = path.join(iconsDir, req.url);
+          if (fs.existsSync(filePath)) {
+            res.setHeader('Content-Type', 'image/png');
+            fs.createReadStream(filePath).pipe(res);
+          } else {
+            res.statusCode = 404;
+            res.end();
+          }
+        });
+      },
+    },
   ],
 });

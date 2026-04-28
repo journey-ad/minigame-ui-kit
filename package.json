@@ -1,0 +1,17 @@
+{
+  "name": "minigame-pixi-ui",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:weixin": "node scripts/build-weixin.js",
+    "build:web": "node scripts/build-web.js",
+    "dev:web": "vite --config platforms/web/vite.config.js",
+    "dev:weixin": "node scripts/build-weixin.js --watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "vite": "^5.0.0",
+    "vite-plugin-static-copy": "^1.0.0"
+  }
+}

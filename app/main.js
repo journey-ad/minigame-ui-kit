@@ -1,19 +1,15 @@
-import '../libs/weapp-adapter.js';
 import PIXI from './ui/common/pixi';
 import { TabBar, Input, stage, logger, COLOR, SIZE } from './ui/index';
-import { initPlatform, patchCoordinateMapping, keyboardAdapter } from './platform';
 import pageRegistry from './pages/index';
 
-export default class Main {
+class Main {
     constructor() {
+        const platform = globalThis.__PLATFORM__;
         logger.setLevel(logger.LEVEL.DEBUG);
         logger.info('PixiJS UI Demo 启动');
 
-        const platform = initPlatform();
+        const { canvas, screenW, screenH } = platform.init();
 
-        const { canvas, screenW, screenH } = platform;
-
-        // 创建 PIXI 应用
         const app = new PIXI.Application({
             width: screenW,
             height: screenH,
@@ -22,14 +18,11 @@ export default class Main {
             resolution: 1,
         });
 
-        // 修补坐标映射
-        patchCoordinateMapping(canvas, screenW);
-        // 设置输入适配器
-        Input.setDefaultAdapter(keyboardAdapter);
+        platform.patchCoordinateMapping(canvas, screenW);
+        Input.setDefaultAdapter(platform.keyboardAdapter);
 
         const contentH = screenH - SIZE.tabH;
 
-        // 内容遮罩
         const mask = new PIXI.Graphics();
         mask.beginFill(0xFFFFFF);
         mask.drawRect(0, 0, screenW, contentH);
@@ -46,7 +39,6 @@ export default class Main {
             content.addChild(page);
         });
 
-        // TabBar
         const tabBar = new TabBar({
             screenWidth: screenW,
             tabs: pageRegistry,
@@ -58,8 +50,11 @@ export default class Main {
         tabBar.y = contentH;
         app.stage.addChild(tabBar);
 
-        // 初始化舞台
         stage.init(app.stage, screenW, screenH);
         logger.info('UI 初始化完成', screenW, screenH);
     }
 }
+
+globalThis.PIXI = PIXI;
+
+new Main();

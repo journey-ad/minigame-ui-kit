@@ -1,6 +1,6 @@
 # Minigame UI Kit
 
-基于 PixiJS 的微信小游戏 UI 组件库，提供一套完整的 UI 组件，适用于任何支持 WebGL 渲染的小游戏环境（包括微信、抖音 等小游戏平台，以及普通浏览器端的 H5 游戏）。包含 Button、Input、Dialog、Toast、Router 等二十余个常用组件，开箱即用，无需额外构建配置，适合快速搭建 Demo 或 MVP 原型
+基于 PixiJS 的小游戏 UI 组件库，提供一套完整的 UI 组件，适用于任何支持 WebGL 渲染的小游戏环境（包括微信、抖音 等小游戏平台，以及普通浏览器端的 H5 游戏）。包含 Button、Input、Dialog、Toast、Router 等二十余个常用组件，开箱即用，无需额外构建配置，适合快速搭建 Demo 或 MVP 原型
 
 ## 预览 - https://gh.ovo.re/minigame-ui-kit/
 
@@ -20,9 +20,12 @@
 
 ## 运行
 
-用微信开发者工具打开项目根目录，点击预览或真机调试即可。无需额外构建步骤
-
-设计稿基准尺寸为 1080×1920，组件尺寸常量定义在 `js/ui/common/styles.js`
+```bash
+pnpm dev:web            # Web 开发服务器
+pnpm dev:weixin         # 微信小游戏 watch 模式（同 build 流程 + 文件监听）
+pnpm build:web          # Web 构建 → dist/web/
+pnpm build:weixin       # 微信构建，用微信开发者工具打开 dist/weixin/ 即可
+```
 
 ## 组件列表
 
@@ -36,13 +39,13 @@
 
 列表：ListItem
 
-所有组件从 `js/ui/index.js` 统一导出
+所有组件从 `app/ui/index.js` 统一导出
 
 ## 二次开发指导
 
 ### 新增页面
 
-在 `js/pages/index.js` 的数组中追加一项：
+在 `app/pages/index.js` 的数组中追加一项：
 
 ```js
 { label: '我的页面', icon: 'star', Page: MyPage }
@@ -130,7 +133,7 @@ export default class MyPage extends Page {
 
 ### 使用 Input
 
-Input 组件依赖键盘适配器。项目已在 `js/main.js` 中注册了微信小游戏键盘适配器，直接使用即可：
+Input 组件依赖键盘适配器。项目通过 `globalThis.__PLATFORM__` 注入平台适配器，直接使用即可：
 
 ```js
 import { Input } from '../ui/index';
@@ -169,7 +172,7 @@ Input.setDefaultAdapter({
 
 ### 样式常量
 
-所有颜色和尺寸常量集中在 `js/ui/common/styles.js`，修改主题色只需调整 `COLOR` 对象中的对应值
+所有颜色和尺寸常量集中在 `app/ui/common/styles.js`，修改主题色只需调整 `COLOR` 对象中的对应值
 
 ### 图标
 

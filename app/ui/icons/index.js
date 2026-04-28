@@ -393,4 +393,4 @@ export const ALL_ICONS = [
 ];
 
 // 允许构建工具通过 define 注入平台特定路径
-export const ICON_BASE = typeof __ICON_BASE__ !== 'undefined' ? __ICON_BASE__ : 'js/ui/icons/png';
+export const ICON_BASE = typeof __ICON_BASE__ !== 'undefined' ? __ICON_BASE__ : 'app/ui/icons/png';
