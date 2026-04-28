@@ -205,7 +205,7 @@ export class ScrollBox extends PIXI.Container {
     }
 
     _startTicker() {
-        PIXI.ticker.shared.add(() => {
+        this._tickerFn = () => {
             if (this._scrolling) return;
             let moved = false;
 
@@ -230,7 +230,16 @@ export class ScrollBox extends PIXI.Container {
             }
 
             if (moved) this._applyScroll();
-        });
+        };
+        PIXI.ticker.shared.add(this._tickerFn);
+    }
+
+    destroy(options) {
+        if (this._tickerFn) {
+            PIXI.ticker.shared.remove(this._tickerFn);
+            this._tickerFn = null;
+        }
+        super.destroy(options);
     }
 }
 

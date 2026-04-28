@@ -143,6 +143,22 @@ export class Select extends PIXI.Container {
         this.on('touchend', onSelectEnd);
         this.on('touchendoutside', onSelectEnd);
     }
+
+    destroy(options) {
+        if (this._tweenFn) {
+            PIXI.ticker.shared.remove(this._tweenFn);
+            this._tweenFn = null;
+        }
+        if (this._open) {
+            stage.removeFrom(LAYER.LAYER_0, this._panel);
+            tapOutside.off(this);
+        }
+        if (this._panel) {
+            this._panel.destroy({ children: true });
+            this._panel = null;
+        }
+        super.destroy(options);
+    }
 }
 
 export default Select

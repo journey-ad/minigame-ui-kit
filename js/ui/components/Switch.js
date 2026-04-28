@@ -126,6 +126,14 @@ export class Switch extends PIXI.Container {
         this.interactive = !disabled;
         this.alpha = disabled ? 0.5 : 1;
     }
+
+    destroy(options) {
+        if (this._tweenFn) {
+            PIXI.ticker.shared.remove(this._tweenFn);
+            this._tweenFn = null;
+        }
+        super.destroy(options);
+    }
 }
 
 export default Switch

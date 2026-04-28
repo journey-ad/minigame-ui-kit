@@ -82,7 +82,10 @@ export const keyboardAdapter = {
         finish();
       };
 
+      let finished = false;
       const finish = () => {
+        if (finished) return;
+        finished = true;
         input.removeEventListener('input', onInput);
         input.removeEventListener('keydown', onKeyDown);
         input.removeEventListener('blur', onBlur);

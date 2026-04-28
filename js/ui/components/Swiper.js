@@ -280,6 +280,12 @@ export class Swiper extends PIXI.Container {
         this._drawDots();
         this._animateTo(this._index);
     }
+
+    destroy(options) {
+        this._stopAutoplay();
+        this._stopAnimation();
+        super.destroy(options);
+    }
 }
 
 export default Swiper

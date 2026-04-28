@@ -102,6 +102,14 @@ export class CheckBox extends PIXI.Container {
         this.on('touchend', onTouchEnd);
         this.on('touchendoutside', onTouchEnd);
     }
+
+    destroy(options) {
+        if (this._tweenFn) {
+            PIXI.ticker.shared.remove(this._tweenFn);
+            this._tweenFn = null;
+        }
+        super.destroy(options);
+    }
 }
 
 export default CheckBox
