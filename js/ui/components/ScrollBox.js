@@ -4,7 +4,7 @@ import { COLOR } from '../common/styles';
 import logger from '../common/logger';
 
 export class ScrollBox extends PIXI.Container {
-    constructor({ width, height, items = [], gap = 16, direction = 'vertical', padding = 20, border = COLOR.border, background = COLOR.card, radius = 16 } = {}) {
+    constructor({ width, height, items = [], gap = 16, direction = 'vertical', padding = 20, border = COLOR.border, background = COLOR.card, radius = 16, freeLayout = false } = {}) {
         super();
         this._w = width;
         this._h = height;
@@ -12,6 +12,7 @@ export class ScrollBox extends PIXI.Container {
         this._pad = padding;
         this._dir = direction;
         this._isH = direction === 'horizontal';
+        this._freeLayout = freeLayout;
         this._offset = this._pad;
         this._scroll = 0;
         this._last = 0;
@@ -58,6 +59,10 @@ export class ScrollBox extends PIXI.Container {
     }
 
     _appendItem(item) {
+        if (this._freeLayout) {
+            this._content.addChild(item);
+            return;
+        }
         if (this._isH) {
             item.x = this._offset;
             item.y = this._pad;
@@ -74,6 +79,14 @@ export class ScrollBox extends PIXI.Container {
     }
 
     get _contentSize() {
+        if (this._freeLayout) {
+            let max = 0;
+            for (const c of this._content.children) {
+                const end = this._isH ? (c.x + (c.width || 0)) : (c.y + (c.height || 0));
+                if (end > max) max = end;
+            }
+            return max + this._pad;
+        }
         return this._offset;
     }
 
