@@ -249,11 +249,8 @@ export class Swiper extends PIXI.Container {
 
     _startAutoplay() {
         this._stopAutoplay();
-        this._autoTimer = setTimeout(() => {
+        this._autoTimer = setInterval(() => {
             this._autoNext();
-            this._autoTimer = setInterval(() => {
-                this._autoNext();
-            }, this._interval);
         }, this._interval);
     }
 

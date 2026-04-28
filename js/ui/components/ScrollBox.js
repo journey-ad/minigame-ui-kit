@@ -142,12 +142,6 @@ export class ScrollBox extends PIXI.Container {
             this._velocity = 0;
             this._scrolling = true;
             this._dirLocked = false;
-            const view = e.data?.originalEvent?.currentTarget;
-            if (view && !this._globalEndTarget) {
-                this._globalEndTarget = view;
-                view.addEventListener('touchend', onEnd);
-                view.addEventListener('touchcancel', onEnd);
-            }
         });
 
         this.on('touchmove', (e) => {
@@ -197,12 +191,6 @@ export class ScrollBox extends PIXI.Container {
         const onEnd = () => {
             this._scrolling = false;
             this._dirLocked = false;
-            const view = this._globalEndTarget;
-            if (view) {
-                view.removeEventListener('touchend', onEnd);
-                view.removeEventListener('touchcancel', onEnd);
-                this._globalEndTarget = null;
-            }
         };
         this.on('touchend', onEnd);
         this.on('touchendoutside', onEnd);

@@ -18,7 +18,7 @@ export function initPlatform() {
   });
   document.body.appendChild(canvas);
 
-  return { canvas, screenW, screenH, dpr };
+  return { canvas, screenW, screenH };
 }
 
 export function patchCoordinateMapping(canvas) {

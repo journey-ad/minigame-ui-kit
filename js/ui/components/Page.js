@@ -89,7 +89,7 @@ export class Page extends PIXI.Container {
         this.on('touchend', onEnd);
         this.on('touchendoutside', onEnd);
 
-        PIXI.ticker.shared.add(() => {
+        this._tickerFn = () => {
             if (this._scrolling) return;
             let moved = false;
             const min = minScroll();
@@ -117,7 +117,16 @@ export class Page extends PIXI.Container {
             if (moved) {
                 this._content.y = this._scroll;
             }
-        });
+        };
+        PIXI.ticker.shared.add(this._tickerFn);
+    }
+
+    destroy(options) {
+        if (this._tickerFn) {
+            PIXI.ticker.shared.remove(this._tickerFn);
+            this._tickerFn = null;
+        }
+        super.destroy(options);
     }
 }
 
