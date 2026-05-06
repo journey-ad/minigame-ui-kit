@@ -1,5 +1,5 @@
 import PIXI from '../ui/common/pixi';
-import { Button, ScrollBox, Swiper, ListItem, ProgressBar, Page, logger } from '../ui/index';
+import { Button, ScrollBox, Swiper, ListItem, ProgressBar, Table, Page, logger } from '../ui/index';
 import { drawRoundedRect, isTap } from '../ui/common/utils';
 import { COLOR, SIZE, FONT } from '../ui/common/styles';
 
@@ -122,58 +122,6 @@ export default class DisplayPage extends Page {
         startBtn.y = y;
         this.addChild(startBtn);
         y += SIZE.btnH + 60;
-
-        // === 垂直列表 ===
-        secLabel = new PIXI.Text('垂直列表 List', {
-            fontSize: SIZE.textSizeSm,
-            fill: COLOR.textSec,
-            fontFamily: FONT
-        });
-        secLabel.x = SIZE.pad;
-        secLabel.y = y;
-        this.addChild(secLabel);
-        y += 50;
-
-        const listBg = new PIXI.Graphics();
-        drawRoundedRect(listBg, 0, 0, listW, 380, 16, COLOR.card, COLOR.border);
-        listBg.x = SIZE.pad;
-        listBg.y = y;
-        this.addChild(listBg);
-
-        const listItems = ['游戏设置', '账号管理', '消息通知', '隐私权限', '关于我们'];
-        listItems.forEach((text, i) => {
-            const li = new ListItem({ width: listW - 40, height: 56, text, showDivider: i > 0 });
-            li.x = SIZE.pad + 20;
-            li.y = y + 16 + i * 72;
-            this.addChild(li);
-        });
-        y += 400;
-
-        // === 水平标签 ===
-        secLabel = new PIXI.Text('水平标签列表', {
-            fontSize: SIZE.textSizeSm,
-            fill: COLOR.textSec,
-            fontFamily: FONT
-        });
-        secLabel.x = SIZE.pad;
-        secLabel.y = y;
-        this.addChild(secLabel);
-        y += 50;
-
-        const tags = ['全部', '动作', 'RPG', '策略', '休闲', '竞技'];
-        let tx = SIZE.pad;
-        tags.forEach((name, j) => {
-            const btn = new Button({
-                text: name, width: 140, height: 64,
-                color: j === 0 ? COLOR.primary : COLOR.surface,
-                onTap: () => logger.info(`[Tag] ${name}`),
-            });
-            btn.x = tx;
-            btn.y = y;
-            this.addChild(btn);
-            tx += 160;
-        });
-        y += 90;
 
         // === ScrollBox 垂直 ===
         secLabel = new PIXI.Text('垂直滚动 ScrollBox', {
@@ -372,5 +320,46 @@ export default class DisplayPage extends Page {
         swiper.x = SIZE.pad;
         swiper.y = y;
         this.addChild(swiper);
+        y += swiperH + 50;
+
+        // === Table ===
+        secLabel = new PIXI.Text('表格 Table', {
+            fontSize: SIZE.textSizeSm,
+            fill: COLOR.textSec,
+            fontFamily: FONT
+        });
+        secLabel.x = SIZE.pad;
+        secLabel.y = y;
+        this.addChild(secLabel);
+        y += 50;
+
+        const tableColumns = [
+            { key: 'rank', title: '排名', width: 120 },
+            { key: 'name', title: '玩家', width: 340 },
+            { key: 'score', title: '分数', width: 200 },
+            { key: 'level', title: '等级', width: 180 },
+        ];
+        const tableData = [
+            { rank: '1', name: 'Player_Alpha', score: '99,999', level: 'Lv.99' },
+            { rank: '2', name: 'Player_Beta', score: '87,432', level: 'Lv.85' },
+            { rank: '3', name: 'Player_Gamma', score: '76,510', level: 'Lv.72' },
+            { rank: '4', name: 'Player_Delta', score: '65,098', level: 'Lv.60' },
+            { rank: '5', name: 'Player_Epsilon', score: '54,321', level: 'Lv.55' },
+            { rank: '6', name: 'Player_Zeta', score: '43,210', level: 'Lv.41' },
+            { rank: '7', name: 'Player_Eta', score: '32,109', level: 'Lv.30' },
+            { rank: '8', name: 'Player_Theta', score: '21,098', level: 'Lv.18' },
+        ];
+
+        const table = new Table({
+            width: listW,
+            height: 500,
+            columns: tableColumns,
+            data: tableData,
+            rowHeight: 72,
+            headerHeight: 72,
+        });
+        table.x = SIZE.pad;
+        table.y = y;
+        this.addChild(table);
     }
 }

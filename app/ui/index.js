@@ -19,6 +19,7 @@ export { ListItem } from './components/ListItem';
 export { Icon } from './components/Icon';
 export { Page } from './components/Page';
 export { FloatBox } from './components/FloatBox';
+export { Table } from './components/Table';
 export { Router } from './components/Router';
 export { ALL_ICONS, ICON_BASE } from './icons/index';
 export { stage, LAYER } from './common/stage';
