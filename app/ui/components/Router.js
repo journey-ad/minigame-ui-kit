@@ -1,4 +1,5 @@
 import PIXI from '../common/pixi';
+import { COLOR } from '../common/styles';
 import logger from '../common/logger';
 
 export class Router extends PIXI.Container {
@@ -72,6 +73,14 @@ export class Router extends PIXI.Container {
         return this._stack.length;
     }
 
+    _wrapWithBackground(component) {
+        const bg = new PIXI.Graphics();
+        bg.beginFill(COLOR.bg);
+        bg.drawRect(0, 0, this._w, this._h);
+        bg.endFill();
+        component.addChildAt(bg, 0);
+    }
+
     push(path, params = {}) {
         if (this._transitioning) return;
         const match = this._matchRoute(path);
@@ -81,6 +90,7 @@ export class Router extends PIXI.Container {
         }
         const merged = { ...match.params, ...params };
         const newComp = match.route.builder(merged, this);
+        this._wrapWithBackground(newComp);
         const oldEntry = this._stack.length > 0 ? this._stack[this._stack.length - 1] : null;
 
         if (oldEntry && typeof oldEntry.component.onLeave === 'function') {
@@ -132,6 +142,7 @@ export class Router extends PIXI.Container {
         }
         const merged = { ...match.params, ...params };
         const newComp = match.route.builder(merged, this);
+        this._wrapWithBackground(newComp);
 
         if (this._stack.length > 0) {
             const old = this._stack[this._stack.length - 1];
@@ -195,15 +206,17 @@ export class Router extends PIXI.Container {
 
             if (type === 'slide') {
                 if (reverse) {
+                    // pop: 旧视图slide+fade移出到右侧，底层视图从左侧slide回到原位
                     newComp.x = this._w * ease;
+                    newComp.alpha = 1 - ease;
                     oldComp.x = -this._w * 0.3 * (1 - ease);
-                    newComp.alpha = 1 - ease * 0.3;
-                    oldComp.alpha = 0.7 + ease * 0.3;
+                    oldComp.alpha = 1;
                 } else {
+                    // push: 新视图slide进入保持不透明，旧视图slide+fade移出
                     newComp.x = this._w * (1 - ease);
+                    newComp.alpha = 1;
                     oldComp.x = -this._w * 0.3 * ease;
-                    newComp.alpha = 0.7 + ease * 0.3;
-                    oldComp.alpha = 1 - ease * 0.3;
+                    oldComp.alpha = 1 - ease;
                 }
             } else if (type === 'fade') {
                 if (reverse) {
@@ -231,10 +244,14 @@ export class Router extends PIXI.Container {
         if (type === 'slide') {
             if (reverse) {
                 newComp.x = 0;
+                newComp.alpha = 1;
                 oldComp.x = -this._w * 0.3;
+                oldComp.alpha = 1;
             } else {
                 newComp.x = this._w;
+                newComp.alpha = 1;
                 oldComp.x = 0;
+                oldComp.alpha = 1;
             }
         } else if (type === 'fade') {
             if (reverse) {

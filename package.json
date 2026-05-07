@@ -2,7 +2,6 @@
   "name": "minigame-pixi-ui",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "build:weixin": "node scripts/build-weixin.js",
     "build:web": "node scripts/build-web.js",

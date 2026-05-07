@@ -5,7 +5,16 @@ globalThis.__PLATFORM__ = {
     const screenW = windowWidth * pixelRatio;
     const screenH = windowHeight * pixelRatio;
 
-    return { canvas, screenW, screenH };
+    // 安全区 inset（转为物理像素，与 canvas 坐标系一致）
+    const _safeArea = wx.getWindowInfo().safeArea || {};
+    const safeArea = {
+        top: (_safeArea.top || 0) * pixelRatio,
+        bottom: (windowHeight - (_safeArea.bottom || windowHeight)) * pixelRatio,
+        left: (_safeArea.left || 0) * pixelRatio,
+        right: (windowWidth - (_safeArea.right || windowWidth)) * pixelRatio,
+    };
+
+    return { canvas, screenW, screenH, safeArea };
   },
 
   /**

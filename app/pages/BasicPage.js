@@ -1,5 +1,5 @@
 import PIXI from '../ui/common/pixi';
-import { Button, Icon, Input, ScrollBox, Page, Toast, logger } from '../ui/index';
+import { Button, Icon, Input, ScrollBox, Page, Toast, safeArea, logger } from '../ui/index';
 import { COLOR, SIZE, FONT } from '../ui/common/styles';
 import { ALL_ICONS } from '../ui/icons/index';
 
@@ -31,7 +31,7 @@ export default class BasicPage extends Page {
 
     _build() {
         const w = this._w;
-        let y = 100;
+        let y = 0;
 
         const title = new PIXI.Text('基础组件', { fontSize: SIZE.textSizeXxl, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
         title.x = SIZE.pad;
@@ -161,7 +161,7 @@ export default class BasicPage extends Page {
         this.addChild(searchInput);
         y += 120;
 
-        const scrollH = this._h - y - 60;
+        const scrollH = this._h - y - safeArea.top - 60;
         this._scrollBox = new ScrollBox({
             width: w - SIZE.pad * 2,
             height: scrollH,

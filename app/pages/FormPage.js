@@ -9,7 +9,7 @@ export default class FormPage extends Page {
     }
 
     _build() {
-        let y = 100;
+        let y = 0;
 
         const title = new PIXI.Text('表单组件', { fontSize: SIZE.textSizeXxl, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
         title.x = SIZE.pad;

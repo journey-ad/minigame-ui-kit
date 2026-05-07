@@ -24,6 +24,7 @@ export { Router } from './components/Router';
 export { ALL_ICONS, ICON_BASE } from './icons/index';
 export { stage, LAYER } from './common/stage';
 export { tapOutside } from './common/tapOutside';
+export { safeArea } from './common/safeArea';
 export * as Utils from './common/utils';
 export { COLOR, SIZE, FONT } from './common/styles';
 export { logger } from './common/logger';

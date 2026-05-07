@@ -10,7 +10,7 @@ export default class AboutPage extends Page {
 
     _build() {
         const w = this._w;
-        let y = 160;
+        let y = 0;
 
         const contentW = w - SIZE.pad * 2;
         const gap = 32;
@@ -74,8 +74,8 @@ export default class AboutPage extends Page {
         badge.beginFill(COLOR.surface);
         badge.drawRoundedRect(0, 0, badgeW, badgeH, 12);
         badge.endFill();
-        badge.x = contentW - badgeW;
-        badge.y = (iconBgSize - badgeH) / 2;
+        badge.x = nameText.x + nameText.width + badgePadX / 2;
+        badge.y = nameText.y + (nameText.height - badgeH) / 2;
         c.addChild(badge);
 
         badgeText.x = badge.x + badgePadX;
@@ -114,7 +114,7 @@ export default class AboutPage extends Page {
         const radius = 16;
 
         const stats = [
-            { value: '22',     label: 'UI 组件',  color: COLOR.primary },
+            { value: '24',     label: 'UI 组件',  color: COLOR.primary },
             { value: '1943',   label: '内置图标', color: COLOR.warning },
             { value: 'v4.8.9', label: 'PixiJS',   color: COLOR.success },
             { value: '57',     label: '主题色板', color: COLOR.info },

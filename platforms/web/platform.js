@@ -46,7 +46,7 @@ globalThis.__PLATFORM__ = {
     });
     document.body.appendChild(canvas);
 
-    return { canvas, screenW, screenH };
+    return { canvas, screenW, screenH, safeArea: { top: 50, bottom: 0, left: 0, right: 0 } };
   },
   patchCoordinateMapping(canvas, _screenW) {
     globalThis.PIXI.interaction.InteractionManager.prototype.mapPositionToPoint = function (point, x, y) {

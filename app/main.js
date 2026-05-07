@@ -1,5 +1,5 @@
 import PIXI from './ui/common/pixi';
-import { TabBar, Input, stage, logger, COLOR, SIZE } from './ui/index';
+import { TabBar, Input, stage, safeArea, logger, COLOR, SIZE } from './ui/index';
 import pageRegistry from './pages/index';
 
 class Main {
@@ -8,7 +8,9 @@ class Main {
         logger.setLevel(logger.LEVEL.DEBUG);
         logger.info('PixiJS UI Demo 启动');
 
-        const { canvas, screenW, screenH } = platform.init();
+        const { canvas, screenW, screenH, safeArea: safeAreaData } = platform.init();
+        safeArea.init(safeAreaData || { top: 0, bottom: 0, left: 0, right: 0 });
+        logger.info(screenW, screenH, 'safeArea:', safeArea.top, safeArea.bottom);
 
         const app = new PIXI.Application({
             width: screenW,

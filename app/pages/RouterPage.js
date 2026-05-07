@@ -1,5 +1,5 @@
 import PIXI from '../ui/common/pixi';
-import { Button, Router, Page, ListItem, logger } from '../ui/index';
+import { Button, Router, Page, ListItem, safeArea, logger } from '../ui/index';
 import { COLOR, SIZE, FONT } from '../ui/common/styles';
 
 function addViewBg(view, w, h) {
@@ -13,7 +13,7 @@ function addViewBg(view, w, h) {
 function buildHomeView(w, h, router) {
     const view = new PIXI.Container();
     addViewBg(view, w, h);
-    let y = 100;
+    let y = 0;
 
     const title = new PIXI.Text('路由组件', { fontSize: SIZE.textSizeXxl, fill: COLOR.white, fontWeight: 'bold', fontFamily: FONT });
     title.x = SIZE.pad;
@@ -96,7 +96,7 @@ function buildHomeView(w, h, router) {
 function buildDetailView(w, h, router, params) {
     const view = new PIXI.Container();
     addViewBg(view, w, h);
-    let y = 100;
+    let y = 0;
 
     const backBtn = new Button({
         text: '← 返回', width: 200, height: 80, color: COLOR.surface,
@@ -169,7 +169,7 @@ function buildDetailView(w, h, router, params) {
 function buildListView(w, h, router) {
     const view = new PIXI.Container();
     addViewBg(view, w, h);
-    let y = 100;
+    let y = 0;
 
     const backBtn = new Button({
         text: '← 返回', width: 200, height: 80, color: COLOR.surface,
@@ -211,7 +211,7 @@ export default class RouterPage extends Page {
 
     _build() {
         const w = this._w;
-        const h = this._h;
+        const h = this._h - safeArea.top - 60;
 
         const router = new Router({
             width: w,
