@@ -7,7 +7,7 @@ export class Modal extends PIXI.Container {
     constructor({
         title,
         message = '',
-        width = 680,
+        width,
         screenW = SIZE.W,
         screenH = SIZE.H,
         messageAlign = 'center',
@@ -17,7 +17,7 @@ export class Modal extends PIXI.Container {
         cancelButtonText = '取消',
         overlay = true,
         closeOnClickOverlay = false,
-        animation = 'fade',
+        animation = 'pop',
         onConfirm,
         onCancel,
     } = {}) {
@@ -57,6 +57,30 @@ export class Modal extends PIXI.Container {
         const padBottom = 40;
         const btnAreaH = SIZE.btnH + 20;
         const gap = 24;
+        const maxWidth = screenW - 80;
+        const minWidth = 680;
+
+        // 宽度自适应：未指定时根据内容计算
+        if (width == null) {
+            const measureTitle = title ? new PIXI.Text(title, {
+                fontSize: SIZE.textSizeXl,
+                fontWeight: 'bold',
+                fontFamily: FONT,
+            }) : null;
+            const measureMsg = message ? new PIXI.Text(message, {
+                fontSize: SIZE.textSize,
+                fontFamily: FONT,
+            }) : null;
+            const naturalWidth = Math.max(
+                measureTitle ? measureTitle.width : 0,
+                measureMsg ? measureMsg.width : 0,
+            ) + padX * 2;
+            width = Math.max(minWidth, Math.min(naturalWidth, maxWidth));
+            if (measureTitle) measureTitle.destroy();
+            if (measureMsg) measureMsg.destroy();
+        } else {
+            width = Math.min(width, maxWidth);
+        }
 
         // 预计算内容高度
         let contentY = padTop;
