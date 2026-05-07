@@ -2,6 +2,7 @@
   "name": "minigame-pixi-ui",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@10.30.2",
   "scripts": {
     "build:weixin": "node scripts/build-weixin.js",
     "build:web": "node scripts/build-web.js",
